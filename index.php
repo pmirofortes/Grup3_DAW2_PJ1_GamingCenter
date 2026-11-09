@@ -20,14 +20,14 @@ $error = "";
 <div class="container-fluid">
     <div class="row min-vh-100">
 
-        <!-- IZQUIERDA: mosaico de imágenes y bloques -->
+        <!-- IZQUIERDA: mosaico con 4 imágenes y 3 bloques -->
         <div class="col-12 col-md-6 columna-izq">
             <div class="row g-2">
 
-                <!-- Mosaico columna A -->
-                <div class="col-6">
+                <!-- Mosaico columna A (estrecha) -->
+                <div class="col-4">
                     <div class="row g-2">
-                        <div class="col-12"><img src="img/palmeras.jpg" alt="Palmeras" class="img-mosaico alta"></div>
+                        <div class="col-12"><img src="img/palmeras.jpg" alt="Imagen 1" class="img-mosaico alta"></div>
                         <div class="col-12 grow">
                             <div class="bloque naranja">
                                 <small>San Andreas · Sala 2</small>
@@ -37,8 +37,8 @@ $error = "";
                     </div>
                 </div>
 
-                <!-- Mosaico columna B -->
-                <div class="col-6">
+                <!-- Mosaico columna B (ancha) -->
+                <div class="col-8">
                     <div class="row g-2">
                         <div class="col-12">
                             <div class="bloque rosa">
@@ -46,13 +46,14 @@ $error = "";
                                 <h3>Starfish Island</h3>
                             </div>
                         </div>
-                        <div class="col-12 grow"><img src="img/coche.jpg" alt="Hotel y coche" class="img-mosaico grande"></div>
+                        <div class="col-12 grow"><img src="img/hotel.jpg" alt="Imagen 2" class="img-mosaico grande"></div>
+                        <div class="col-12"><img src="img/coche.jpg" alt="Imagen 3" class="img-mosaico media"></div>
                         <div class="col-12">
                             <div class="row g-2">
-                                <div class="col-6"><img src="img/hotel.jpg" alt="Playa" class="img-mosaico pequena"></div>
+                                <div class="col-6"><img src="img/img4.jpg" alt="Imagen 4" class="img-mosaico pequena"></div>
                                 <div class="col-6">
                                     <div class="bloque naranja pequena">
-                                        <small>GTA 9 · Sala 9</small>
+                                        <small>GTA V · Sala 9</small>
                                         <h3>Vinewood Hills</h3>
                                     </div>
                                 </div>

@@ -1,10 +1,14 @@
+@font-face {
+    font-family: 'Pricedown';
+    src: url('fonts/pricedown.ttf');
+}
 
 body {
     font-family: 'Outfit', sans-serif;
     margin: 0;
     background-color: #3a1470;
 }
- 
+
 /* ---------- IZQUIERDA ---------- */
 .columna-izq {
     position: relative;
@@ -12,18 +16,18 @@ body {
     padding: 8px;
     display: flex;
 }
- 
+
 /* El mosaico ocupa todo el alto de la columna */
 .columna-izq > .row {
     flex: 1;
     width: 100%;
 }
-.columna-izq > .row > .col-6 > .row {
+.columna-izq > .row > [class*="col-"] > .row {
     height: 100%;
     flex-direction: column;
     flex-wrap: nowrap;
 }
- 
+
 /* Elementos que se estiran para rellenar el hueco */
 .grow {
     flex-grow: 1;
@@ -33,23 +37,24 @@ body {
 .grow > .img-mosaico {
     flex: 1;
 }
- 
+
 .img-mosaico {
     width: 100%;
     object-fit: cover;
     display: block;
 }
-.img-mosaico.alta    { height: 360px; }
-.img-mosaico.grande  { min-height: 330px; }
-.img-mosaico.pequena { height: 170px; }
- 
+.img-mosaico.alta    { height: 340px; }
+.img-mosaico.grande  { min-height: 200px; }
+.img-mosaico.media   { height: 150px; }
+.img-mosaico.pequena { height: 140px; }
+
 .bloque {
     color: #3a1470;
     padding: 16px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    min-height: 170px;
+    min-height: 130px;
 }
 .bloque small {
     font-size: 0.7rem;
@@ -65,8 +70,8 @@ body {
 }
 .bloque.naranja { background-color: #ffb457; }
 .bloque.rosa    { background-color: #c9308f; color: #fff; }
-.bloque.pequena { min-height: 170px; }
- 
+.bloque.pequena { min-height: 140px; }
+
 /* Título centrado sobre el mosaico */
 .titulo-gta {
     position: absolute;
@@ -75,15 +80,15 @@ body {
     transform: translate(-50%, -50%);
     width: 90%;
     text-align: center;
-    font-family: 'Anton', sans-serif;
+    font-family: 'Pricedown', 'Anton', sans-serif;
     font-size: 2.6rem;
-    text-transform: uppercase;
+    text-transform: lowercase;
     color: #fff;
     -webkit-text-stroke: 2px #000;
     text-shadow: 3px 3px 0 #000;
     pointer-events: none;
 }
- 
+
 /* ---------- DERECHA ---------- */
 .columna-der {
     background-color: #fff3e6;
@@ -92,19 +97,19 @@ body {
     justify-content: center;
     padding: 40px;
 }
- 
+
 .caja-login {
     width: 100%;
     max-width: 420px;
 }
- 
+
 .etiqueta {
     color: #7a6a8a;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 0.7rem;
 }
- 
+
 .titulo-login {
     font-family: 'Anton', sans-serif;
     font-size: 2.8rem;
@@ -112,13 +117,13 @@ body {
     color: #3a1470;
     margin-bottom: 25px;
 }
- 
+
 .caja-login label {
     color: #3a1470;
     font-size: 0.85rem;
     margin-bottom: 6px;
 }
- 
+
 .caja-login .form-control {
     background-color: #fff;
     border: 1px solid #e8d5e0;
@@ -129,7 +134,7 @@ body {
     border-color: #c9308f;
     box-shadow: 0 0 0 3px rgba(201, 48, 143, 0.2);
 }
- 
+
 .btn-login {
     width: 100%;
     padding: 14px;
@@ -142,7 +147,7 @@ body {
 .btn-login:hover {
     background-color: #a82377;
 }
- 
+
 /* Móvil */
 @media (max-width: 768px) {
     .titulo-gta { font-size: 1.8rem; }

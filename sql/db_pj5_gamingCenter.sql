@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS db_gamingCenter;
-CREATE DATABASE db_gamingCenter;
-USE db_gamingCenter;
+DROP DATABASE IF EXISTS db_pj5_gamingCenter;
+CREATE DATABASE db_pj5_gamingCenter;
+USE db_pj5_gamingCenter;
 
 
 -- Creación tablas

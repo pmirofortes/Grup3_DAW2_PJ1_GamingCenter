@@ -44,7 +44,7 @@
                         <div class="col-12"><img src="img/coche.jpg" alt="Imagen 3" class="img-mosaico media"></div>
                         <div class="col-12">
                             <div class="row g-2">
-                                <div class="col-6"><img src="img/img4.jpg" alt="Imagen 4" class="img-mosaico pequena"></div>
+                                <div class="col-6"><img src="img/mueble.jpg" alt="Imagen 4" class="img-mosaico pequena"></div>
                                 <div class="col-6">
                                     <div class="bloque naranja pequena">
                                         <small>GTA V · Sala 9</small>

@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS db_gamingCenter;
-CREATE DATABASE db_gamingCenter;
-USE db_gamingCenter;
+DROP DATABASE IF EXISTS db_pj5_gamingCenter;
+CREATE DATABASE db_pj5_gamingCenter;
+USE db_pj5_gamingCenter;
 
 
 -- Creación tablas
@@ -57,7 +57,7 @@ FOREIGN KEY (id_gamemaster) REFERENCES gamemasters(id_gamemaster);
 
 
 
-USE db_gamingCenter;
+USE db_pj5_gamingCenter;
 
 
 -- ==========================================
@@ -67,13 +67,12 @@ USE db_gamingCenter;
 INSERT INTO gamemasters
 (username, password, nom_real, cognom_real)
 VALUES
-('admin', 'admin123', 'Carlos', 'Martínez'),
-('ninjaMaster', 'ninja123', 'David', 'García'),
-('pixelKing', 'pixel123', 'Laura', 'Fernández'),
-('gamePro', 'game123', 'Javier', 'López'),
-('shadowGM', 'shadow123', 'Sergio', 'Rodríguez'),
-('levelMaster', 'level123', 'Ana', 'Martínez');
-
+('admin', '$2y$12$N8W3sPQCIfF6M9D2RocNBef/4h6DJfgfyqrSyERhb5GW0q0y9ak1W', 'Carlos', 'Martínez'), -- qweQWE123
+('ninjaMaster', '$2y$12$N8W3sPQCIfF6M9D2RocNBef/4h6DJfgfyqrSyERhb5GW0q0y9ak1W', 'David', 'García'), -- qweQWE123
+('pixelKing', '$2y$12$N8W3sPQCIfF6M9D2RocNBef/4h6DJfgfyqrSyERhb5GW0q0y9ak1W', 'Laura', 'Fernández'), -- qweQWE123
+('gamePro', '$2y$12$N8W3sPQCIfF6M9D2RocNBef/4h6DJfgfyqrSyERhb5GW0q0y9ak1W', 'Javier', 'López'), -- qweQWE123
+('shadowGM', '$2y$12$N8W3sPQCIfF6M9D2RocNBef/4h6DJfgfyqrSyERhb5GW0q0y9ak1W', 'Sergio', 'Rodríguez'), -- qweQWE123
+('levelMaster', '$2y$12$N8W3sPQCIfF6M9D2RocNBef/4h6DJfgfyqrSyERhb5GW0q0y9ak1W', 'Ana', 'Martínez'); -- qweQWE123
 
 -- ==========================================
 -- SALAS

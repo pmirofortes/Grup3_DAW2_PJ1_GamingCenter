@@ -14,11 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $usuario = trim($_POST["usuario"] ?? "");
     $password = $_POST["password"] ?? "";
 
-    // Comprobamos los campos también en el servidor ya que el JavaScript se puede desactivar
+    // En el inicio de sesión solo comprobamos que se hayan enviado ambos campos.
     if ($usuario === "" || $password === "") {
         $error = "El usuario y la contraseña son obligatorios.";
-    } elseif (strlen($usuario) < 3 || strlen($usuario) > 50) {
-        $error = "El usuario debe tener entre 3 y 50 caracteres.";
     } else {
         // La consulta preparada evita insertar directamente el usuario en el SQL
         require_once __DIR__ . "/../sql/conexion.php";
@@ -33,8 +31,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $consulta->execute(["usuario" => $usuario]);
             $gamemaster = $consulta->fetch(PDO::FETCH_ASSOC);
 
-            // Comparamos la contraseña con su hash guardado, no con texto plano
-            if ($gamemaster && password_verify($password, $gamemaster["password"])) {
+            $passwordStored = $gamemaster["password"] ?? "";
+            $passwordIsHashed = password_get_info($passwordStored)["algo"] !== null;
+            $passwordIsValid = $gamemaster && (
+                ($passwordIsHashed && password_verify($password, $passwordStored))
+                || (!$passwordIsHashed && hash_equals($passwordStored, $password))
+            );
+
+            if ($passwordIsValid) {
+                if (!$passwordIsHashed) {
+                    $actualizarPassword = $conn->prepare(
+                        "UPDATE gamemasters SET password = :password WHERE id_gamemaster = :id"
+                    );
+                    $actualizarPassword->execute([
+                        "password" => password_hash($password, PASSWORD_DEFAULT),
+                        "id" => $gamemaster["id_gamemaster"],
+                    ]);
+                }
+
                 // Renovamos el identificador para proteger la sesión al iniciar correctamente
                 session_regenerate_id(true);
                 $_SESSION["id_gamemaster"] = $gamemaster["id_gamemaster"];

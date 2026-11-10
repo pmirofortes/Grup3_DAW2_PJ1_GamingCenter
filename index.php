@@ -24,6 +24,7 @@
                     <div class="row g-2">
                         <div class="col-12"><img src="img/palmeras.jpg" alt="Imagen 1" class="img-mosaico alta"></div>
                         <div class="col-12 grow">
+                            <!-- 1r bloque -->
                             <div class="bloque naranja">
                                 <small>San Andreas · Sala 2</small>
                                 <h3>Grove Street</h3>
@@ -37,6 +38,7 @@
                     <div class="row g-2">
                         <div class="col-12">
                             <div class="bloque rosa">
+                                <!-- 2n bloque -->
                                 <small>Vice City · Sala 8</small>
                                 <h3>Starfish Island</h3>
                             </div>
@@ -48,6 +50,7 @@
                                 <div class="col-6"><img src="img/hotel.jpg" alt="Playa" class="img-mosaico pequena"></div>
                                 <div class="col-6">
                                     <div class="bloque naranja pequena">
+                                        <!-- 3r bloque -->
                                         <small>GTA V · Sala 9</small>
                                         <h3>Vinewood Hills</h3>
                                     </div>

@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error = "El usuario debe tener entre 3 y 50 caracteres.";
     } else {
         // La consulta preparada evita insertar directamente el usuario en el SQL
-        require_once __DIR__ . "/../conexion.php";
+        require_once __DIR__ . "/../sql/conexion.php";
 
         try {
             $consulta = $conn->prepare(

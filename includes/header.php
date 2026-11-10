@@ -1,28 +1,56 @@
 <?php
-include '../sql/conexion.php';
+require_once __DIR__ . '/session.php';
+require_once __DIR__ . '/../sql/conexion.php';
 
-// consulta sql para obtener el numero de salas y plazas libres
+// Salas libres: salas con al menos un módulo disponible
+// Plazas libres: capacidad de los módulos disponibles
+$sql = "SELECT COUNT(DISTINCT s.id_sala) AS salas_total, COUNT(DISTINCT CASE WHEN m.estado = 'Disponible' THEN s.id_sala END) AS salas_libres, COALESCE(SUM(m.capacidad), 0) AS plazas_total, COALESCE(SUM(CASE WHEN m.estado = 'Disponible' THEN m.capacidad END), 0) AS plazas_libres
+        FROM salas s
+        LEFT JOIN modulos m ON m.id_sala = s.id_sala";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$resumen = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Gamemaster conectado
+$sql = "SELECT nom_real, cognom_real FROM gamemasters WHERE id_gamemaster = :id";
+$stmt = $conn->prepare($sql);
+$stmt->execute([':id' => $idGamemaster]);
+$gamemaster = $stmt->fetch(PDO::FETCH_ASSOC);
 
+$nombre = $gamemaster['nom_real'] . ' ' . $gamemaster['cognom_real'];
 ?>
 
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Header</title>
-</head>
-<body>
-    <navbar>
-        <ul>
-            <li>logo grand theft team: code city</li>
-            <li>Salas libres <span></span></li>
-            <li>Plazas libres <span></span></li>
-            <li><?php echo date("H:i"); ?></li>
-            <li><a href="logout.php">Cerrar sesión</a></li>
-        </ul>
-    </navbar>
-</body>
-</html>
+<link rel="stylesheet" href="../assets/styles/header.css?v=2.7">
+
+<header class="header">
+    <a href="main.php" class="logo">
+        <img src="../assets/images/logo.png" alt="Grand Theft Team: Code City">
+    </a>
+
+    <div class="contadores">
+        <div class="contador">
+            <small>Salas<span class="libres"> libres</span></small>
+            <b><?= $resumen['salas_libres'] ?><span>/<?= $resumen['salas_total'] ?></span></b>
+        </div>
+        <div class="contador">
+            <small>Plazas<span class="libres"> libres</span></small>
+            <b><?= $resumen['plazas_libres'] ?><span>/<?= $resumen['plazas_total'] ?></span></b>
+        </div>
+    </div>
+
+    <div class="usuario">
+        <b><?= htmlspecialchars($nombre) ?></b>
+        <small>Gamemaster</small>
+    </div>
+
+    <div class="acciones">
+        <a href="historico.php" class="btn-header btn-icono" title="Histórico">
+            <img src="../assets/images/historico.png" alt="Histórico">
+        </a>
+        <a href="../backend/logout.php" class="btn-header" title="Cerrar sesión">
+            <img src="../assets/images/logout.png" alt="">
+            <span>Cerrar sesión</span>
+        </a>
+    </div>
+</header>

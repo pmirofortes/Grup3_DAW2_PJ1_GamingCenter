@@ -47,6 +47,30 @@ foreach ($filas as $fila) {
     }
 }
 
+// Filtro por tipo de sala (?tipo=...). Clave = valor en la BD, valor = texto del radio
+$tipos = [
+    'PC Standard'          => 'PC Standard',
+    'Simuladores/Consolas' => 'Simuladores',
+    'VIP'                  => 'VIP',
+];
+$tipo = $_GET['tipo'] ?? '';
+if (!isset($tipos[$tipo])) {
+    $tipo = ''; // Todas
+}
+
+// Búsqueda por nombre de sala (?q=...)
+$busqueda = trim($_GET['q'] ?? '');
+
+$salasFiltradas = [];
+foreach ($salas as $id => $sala) {
+    $coincideTipo = $tipo === '' || $sala['tipo'] === $tipo;
+    $coincideNombre = $busqueda === '' || mb_stripos($sala['nombre'], $busqueda) !== false;
+
+    if ($coincideTipo && $coincideNombre) {
+        $salasFiltradas[$id] = $sala;
+    }
+}
+
 // Sala abierta en el panel derecho (?id_sala=X)
 $idSala = filter_input(INPUT_GET, 'id_sala', FILTER_VALIDATE_INT);
 $salaAbierta = ($idSala && isset($salas[$idSala])) ? $salas[$idSala] : null;
@@ -84,15 +108,23 @@ $salaAbierta = ($idSala && isset($salas[$idSala])) ? $salas[$idSala] : null;
 
     <div class="container-fluid">
         <div class="row">
+            <!-- Filtro: el nombre se filtra en el navegador al escribir; el tipo se envía al cambiar de opción -->
+            <form id="filtro">
+                <input type="search" id="buscador" name="q" placeholder="Buscar sala..." value="<?= htmlspecialchars($busqueda) ?> " autocomplete="off">
+                <label><input type="radio" name="tipo" value="" <?= $tipo === '' ? 'checked' : '' ?>> Todas</label>
+                <?php foreach ($tipos as $valor => $texto) { ?>
+                    <label><input type="radio" name="tipo" value="<?= $valor ?>" <?= $tipo === $valor ? 'checked' : '' ?>> <?= $texto ?></label>
+                <?php } ?>
+            </form>
 
             <!-- IZQUIERDA (66%): salas -->
             <div class="col-lg-8">
                 <p>Número total de salas: <?= $totalSalas ?></p>
 
                 <ul>
-                    <?php foreach ($salas as $id => $sala) { ?>
+                    <?php foreach ($salasFiltradas as $id => $sala) { ?>
                         <li>
-                            <a href="?id_sala=<?= $id ?>">
+                            <a href="?tipo=<?= urlencode($tipo) ?>&q=<?= urlencode($busqueda) ?>&id_sala=<?= $id ?>">
                                 <?= htmlspecialchars($sala['nombre']) ?> (<?= htmlspecialchars($sala['tipo']) ?>)
                             </a>
                         </li>
@@ -156,6 +188,5 @@ $salaAbierta = ($idSala && isset($salas[$idSala])) ? $salas[$idSala] : null;
 
         </div>
     </div>
-
 </body>
 </html>

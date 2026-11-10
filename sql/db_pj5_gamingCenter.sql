@@ -32,6 +32,7 @@ CREATE TABLE ocupaciones (
     id_ocupacion INT AUTO_INCREMENT PRIMARY KEY,
     fecha_inicio DATETIME NOT NULL,
     fecha_fin DATETIME NULL,
+    num_personas INT NOT NULL DEFAULT 1,
     id_modulo INT NOT NULL,
     id_gamemaster INT NOT NULL
 );

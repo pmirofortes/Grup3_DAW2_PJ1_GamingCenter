@@ -23,15 +23,6 @@ function validarPass() {
     if (pass == "") {
         error.textContent = "La contraseña es obligatoria";
         return false;
-    } else if (pass.length < 8) {
-        error.textContent = "La contraseña debe tener al menos 8 caracteres";
-        return false;
-    } else if (!/[A-Z]/.test(pass)) {
-        error.textContent = "La contraseña debe incluir al menos una mayúscula";
-        return false;
-    } else if (!/[0-9]/.test(pass)) {
-        error.textContent = "La contraseña debe incluir al menos un número";
-        return false;
     } else {
         error.textContent = "";
         return true;

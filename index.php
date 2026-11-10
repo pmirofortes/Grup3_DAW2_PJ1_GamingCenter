@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-
+<!--Aqui es donde emepieza el boostrap para el responsive  -->
 <div class="container-fluid">
     <div class="row min-vh-100">
 

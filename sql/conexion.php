@@ -2,7 +2,7 @@
 
 $servername = "db"; // Nombre del servidor
 $dbusername = "nahuel"; // Nombre de usuario
-$dbpassword = "95F97h0c"; // Contraseña
+$dbpassword = "95f97h0c"; // Contraseña
 $dbname = "db_pj5_gamingCenter"; // Nombre de la base de datos
 
 try {

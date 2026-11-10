@@ -54,6 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["id_gamemaster"] = $gamemaster["id_gamemaster"];
                 $_SESSION["username"] = $gamemaster["username"];
                 $mensaje = "Sesión iniciada correctamente.";
+                header("Location: ./views/main.php");
+                exit();
             } else {
                 $error = "Usuario o contraseña incorrectos.";
             }

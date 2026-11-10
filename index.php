@@ -14,11 +14,12 @@
 <div class="container-fluid">
     <div class="row min-vh-100">
 
-        <!-- IZQUIERDA: mosaico con 4 imágenes y 3 bloques -->
+        <!-- IZQUIERDA:  Contiene las  4 imagenes y 3 bloques -->
+        <!--col-12 ocupa todo la pagina y luego se va a dividir en bloque divido en la mitad con el col-6 -->
         <div class="col-12 col-md-6 columna-izq">
             <div class="row g-2">
 
-                <!-- Mosaico columna A (estrecha) -->
+                <!-- La primera columna izquierda -->
                 <div class="col-4">
                     <div class="row g-2">
                         <div class="col-12"><img src="img/palmeras.jpg" alt="Imagen 1" class="img-mosaico alta"></div>
@@ -31,7 +32,7 @@
                     </div>
                 </div>
 
-                <!-- Mosaico columna B (ancha) -->
+                <!--La otra columna -->
                 <div class="col-8">
                     <div class="row g-2">
                         <div class="col-12">
@@ -58,11 +59,11 @@
 
             </div>
 
-            <!-- Título encima del mosaico -->
+            <!-- Título encima -->
             <h1 class="titulo-gta">Grand Theft Team: Code City</h1>
         </div>
 
-        <!-- DERECHA: formulario -->
+        <!-- DERECHA: congtiene lo del formulario -->
         <div class="col-12 col-md-6 columna-der">
             <div class="caja-login">
                 <small class="etiqueta">Panel de gamemasters</small>

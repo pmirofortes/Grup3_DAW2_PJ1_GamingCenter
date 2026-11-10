@@ -1,7 +1,9 @@
 <?php
 
 require_once __DIR__ . '/../includes/session.php';
-include '../sql/conexion.php';
+require_once __DIR__ . '/../sql/conexion.php';
+
+/** @var PDO $conn  (se crea en conexion.php) */
 
 $sql = "SELECT COUNT(*) AS totalSalas FROM salas";
 $stmt = $conn->prepare($sql);
@@ -66,7 +68,6 @@ $salaAbierta = ($idSala && isset($salas[$idSala])) ? $salas[$idSala] : null;
     $mensajes = [
         'modulo_ocupado'   => 'Módulo ocupado correctamente.',
         'modulo_liberado'  => 'Módulo liberado correctamente.',
-        'todos_liberados'  => 'Se han liberado todos tus módulos.',
     ];
     $errores = [
         'modulo_ocupado'   => 'Ese módulo ya está ocupado.',
@@ -79,12 +80,6 @@ $salaAbierta = ($idSala && isset($salas[$idSala])) ? $salas[$idSala] : null;
     <?php } elseif (isset($_GET['error'])) { ?>
         <p><?= $errores[$_GET['error']] ?? 'Ha ocurrido un error, inténtalo de nuevo.' ?></p>
     <?php } ?>
-
-    <!-- SOLO PARA TEST -->
-    <form action="../backend/liberar_todos.php" method="POST">
-        <input type="hidden" name="id_sala" value="<?= $idSala ?>">
-        <button type="submit">Liberar todos mis módulos (test)</button>
-    </form>
 
     <div class="container-fluid">
         <div class="row">

@@ -60,6 +60,7 @@ $salaAbierta = ($idSala && isset($salas[$idSala])) ? $salas[$idSala] : null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/styles/style.css?v=2.9">
 </head>
 <body>
     <?php include '../includes/header.php'; ?>

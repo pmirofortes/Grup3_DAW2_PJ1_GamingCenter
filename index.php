@@ -9,10 +9,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
    <!-- Link de la fuente --> 
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/styles/style.css">
+    <link rel="stylesheet" href="./assets/styles/style.css?v=2.7">
 </head>
-<body>
+<body class="pagina-login">
 <!--Aqui es donde emepieza el boostrap para el responsive  -->
 <div class="container-fluid">
     <div class="row min-vh-100">

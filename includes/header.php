@@ -21,8 +21,6 @@ $nombre = $gamemaster['nom_real'] . ' ' . $gamemaster['cognom_real'];
 ?>
 
 
-<link rel="stylesheet" href="../assets/styles/header.css?v=2.7">
-
 <header class="header">
     <a href="main.php" class="logo">
         <img src="../assets/images/logo.png" alt="Grand Theft Team: Code City">

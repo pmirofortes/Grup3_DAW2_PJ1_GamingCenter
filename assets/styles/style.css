@@ -345,3 +345,9 @@ body.pagina-login {
         justify-content: center;
     }
 }
+
+/* ==================== SALAS (views/main.php) ==================== */
+/* Salas que no coinciden con la búsqueda */
+.oculto {
+    display: none;
+}

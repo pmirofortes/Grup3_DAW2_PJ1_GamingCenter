@@ -121,9 +121,9 @@ $salaAbierta = ($idSala && isset($salas[$idSala])) ? $salas[$idSala] : null;
             <div class="col-lg-8">
                 <p>Número total de salas: <?= $totalSalas ?></p>
 
-                <ul>
+                <ul id="lista-salas">
                     <?php foreach ($salasFiltradas as $id => $sala) { ?>
-                        <li>
+                        <li data-nombre="<?= htmlspecialchars($sala['nombre']) ?>">
                             <a href="?tipo=<?= urlencode($tipo) ?>&q=<?= urlencode($busqueda) ?>&id_sala=<?= $id ?>">
                                 <?= htmlspecialchars($sala['nombre']) ?> (<?= htmlspecialchars($sala['tipo']) ?>)
                             </a>
@@ -188,5 +188,7 @@ $salaAbierta = ($idSala && isset($salas[$idSala])) ? $salas[$idSala] : null;
 
         </div>
     </div>
+
+    <script src="../assets/scripts/main.js?v=<?= filemtime(__DIR__ . '/../assets/scripts/main.js') ?>"></script>
 </body>
 </html>

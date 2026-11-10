@@ -56,8 +56,11 @@ FOREIGN KEY (id_gamemaster) REFERENCES gamemasters(id_gamemaster);
 
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 9357e53c91920d10caab229aa91cdf264230cbed
 USE db_gamingCenter;
 
 
@@ -86,6 +89,7 @@ VALUES
 INSERT INTO salas
 (nombre, tipo)
 VALUES
+<<<<<<< HEAD
 ('Portland', 'PC Standard'),
 ('Grove Street', 'PC Standard'),
 ('Algonquin', 'PC Standard'),
@@ -97,6 +101,19 @@ VALUES
 
 ('Starfish Island', 'VIP'),
 ('Vinewood Hills', 'VIP');
+=======
+('Downtown', 'PC Standard'),
+('Little Haiti', 'PC Standard'),
+('Little Havana', 'PC Standard'),
+('Escobar International Airport', 'PC Standard'),
+
+('Leaf Links', 'Simuladores/Consolas'),
+('Starfish Island', 'Simuladores/Consolas'),
+('Ocean Beach', 'Simuladores/Consolas'),
+
+('Vice Point', 'VIP'),
+('Prawn Island', 'VIP');
+>>>>>>> 9357e53c91920d10caab229aa91cdf264230cbed
 
 
 -- ==========================================
@@ -104,7 +121,11 @@ VALUES
 -- ==========================================
 
 -- ------------------------------------------
+<<<<<<< HEAD
 -- SALA 1 - PORTLAND
+=======
+-- SALA 1 - DOWNTOWN
+>>>>>>> 9357e53c91920d10caab229aa91cdf264230cbed
 -- PC STANDARD
 -- ------------------------------------------
 
@@ -118,7 +139,11 @@ VALUES
 
 
 -- ------------------------------------------
+<<<<<<< HEAD
 -- SALA 2 - GROVE STREET
+=======
+-- SALA 2 - LITTLE HAITI
+>>>>>>> 9357e53c91920d10caab229aa91cdf264230cbed
 -- PC STANDARD
 -- ------------------------------------------
 
@@ -132,7 +157,11 @@ VALUES
 
 
 -- ------------------------------------------
+<<<<<<< HEAD
 -- SALA 3 - ALGONQUIN
+=======
+-- SALA 3 - LITTLE HAVANA
+>>>>>>> 9357e53c91920d10caab229aa91cdf264230cbed
 -- PC STANDARD
 -- ------------------------------------------
 
@@ -147,7 +176,11 @@ VALUES
 
 
 -- ------------------------------------------
+<<<<<<< HEAD
 -- SALA 4 - OCEAN BEACH
+=======
+-- SALA 4 - ESCOBAR INTERNATIONAL AIRPORT
+>>>>>>> 9357e53c91920d10caab229aa91cdf264230cbed
 -- PC STANDARD
 -- ------------------------------------------
 
@@ -162,7 +195,11 @@ VALUES
 
 
 -- ------------------------------------------
+<<<<<<< HEAD
 -- SALA 5 - LAS VENTURAS
+=======
+-- SALA 5 - LEAF LINKS
+>>>>>>> 9357e53c91920d10caab229aa91cdf264230cbed
 -- SIMULADORES / CONSOLAS
 -- ------------------------------------------
 
@@ -177,7 +214,11 @@ VALUES
 
 
 -- ------------------------------------------
+<<<<<<< HEAD
 -- SALA 6 - VESPUCCI BEACH
+=======
+-- SALA 6 - STARFISH ISLAND
+>>>>>>> 9357e53c91920d10caab229aa91cdf264230cbed
 -- SIMULADORES / CONSOLAS
 -- ------------------------------------------
 
@@ -192,7 +233,11 @@ VALUES
 
 
 -- ------------------------------------------
+<<<<<<< HEAD
 -- SALA 7 - LEONIDA KEYS
+=======
+-- SALA 7 - OCEAN BEACH
+>>>>>>> 9357e53c91920d10caab229aa91cdf264230cbed
 -- SIMULADORES / CONSOLAS
 -- ------------------------------------------
 
@@ -207,7 +252,11 @@ VALUES
 
 
 -- ------------------------------------------
+<<<<<<< HEAD
 -- SALA 8 - STARFISH ISLAND
+=======
+-- SALA 8 - VICE POINT
+>>>>>>> 9357e53c91920d10caab229aa91cdf264230cbed
 -- VIP
 -- ------------------------------------------
 
@@ -220,7 +269,11 @@ VALUES
 
 
 -- ------------------------------------------
+<<<<<<< HEAD
 -- SALA 9 - VINEWOOD HILLS
+=======
+-- SALA 9 - PRAWN ISLAND
+>>>>>>> 9357e53c91920d10caab229aa91cdf264230cbed
 -- VIP
 -- ------------------------------------------
 
@@ -240,6 +293,7 @@ INSERT INTO ocupaciones
 (fecha_inicio, fecha_fin, id_modulo, id_gamemaster)
 VALUES
 
+<<<<<<< HEAD
 -- Portland 1.1 - Solo
 ('2026-11-09 17:40:00', NULL, 1, 1),
 
@@ -259,6 +313,27 @@ VALUES
 ('2026-11-09 16:50:00', NULL, 22, 6),
 
 -- Starfish Island 8.1 - Party
+=======
+-- Downtown 1.1 - Solo
+('2026-11-09 17:40:00', NULL, 1, 1),
+
+-- Little Havana 3.2 - Solo
+('2026-11-09 18:05:00', NULL, 10, 3),
+
+-- Little Havana 3.4 - Duo
+('2026-11-09 18:20:00', NULL, 12, 2),
+
+-- Leaf Links 5.1 - Party
+('2026-11-09 17:15:00', NULL, 17, 4),
+
+-- Leaf Links 5.2 - Party
+('2026-11-09 18:10:00', NULL, 18, 5),
+
+-- Starfish Island 6.1 - Party
+('2026-11-09 16:50:00', NULL, 22, 6),
+
+-- Vice Point 8.1 - Party
+>>>>>>> 9357e53c91920d10caab229aa91cdf264230cbed
 ('2026-11-09 17:30:00', NULL, 32, 3);
 
 

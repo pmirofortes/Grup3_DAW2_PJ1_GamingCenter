@@ -19,12 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error = "El usuario y la contraseña son obligatorios.";
     } elseif (strlen($usuario) < 3 || strlen($usuario) > 50) {
         $error = "El usuario debe tener entre 3 y 50 caracteres.";
-    } elseif (strlen($password) < 8) {
-        $error = "La contraseña debe tener al menos 8 caracteres.";
-    } elseif (!preg_match("/[A-Z]/", $password)) {
-        $error = "La contraseña debe incluir al menos una mayúscula.";
-    } elseif (!preg_match("/[0-9]/", $password)) {
-        $error = "La contraseña debe incluir al menos un número.";
     } else {
         // La consulta preparada evita insertar directamente el usuario en el SQL
         require_once __DIR__ . "/../conexion.php";

@@ -9,46 +9,59 @@ body {
     background-color: #3a1470;
 }
 
-/* ---------- IZQUIERDA ---------- */
-.columna-izq {
+/* La columna de la izquierda */
+.zona_izquierda {
     position: relative;
     background-color: #3a1470;
     padding: 8px;
     display: flex;
 }
 
-/* El mosaico ocupa todo el alto de la columna */
-.columna-izq > .row {
+/* Ocupa todo el alto de la columna */
+.zona_izquierda > .row {
     flex: 1;
     width: 100%;
 }
-.columna-izq > .row > [class*="col-"] > .row {
+.zona_izquierda > .row > [class*="col-"] > .row {
     height: 100%;
     flex-direction: column;
     flex-wrap: nowrap;
 }
 
 /* Elementos que se estiran para rellenar el hueco */
-.grow {
+.ocupar_resto {
     flex-grow: 1;
     display: flex;
 }
-.grow > .bloque,
-.grow > .img-mosaico {
+.ocupar_resto > .bloque_grove,
+.ocupar_resto > .imagen_hotel {
     flex: 1;
 }
 
-.img-mosaico {
+.imagen_palmera,
+.imagen_hotel,
+.imagen_coche,
+.imagen_mueble {
     width: 100%;
     object-fit: cover;
     display: block;
 }
-.img-mosaico.alta    { height: 340px; }
-.img-mosaico.grande  { min-height: 200px; }
-.img-mosaico.media   { height: 150px; }
-.img-mosaico.pequena { height: 140px; }
+.imagen_palmera { 
+    height: 340px; 
+}
+.imagen_hotel { 
+    min-height: 200px; 
+}
+.imagen_coche { 
+    height: 150px; 
+}
+.imagen_mueble { 
+    height: 140px; 
+}
 
-.bloque {
+.bloque_grove,
+.bloque_starfish,
+.bloque_vinewood {
     color: #3a1470;
     padding: 16px;
     display: flex;
@@ -56,24 +69,36 @@ body {
     justify-content: flex-end;
     min-height: 130px;
 }
-.bloque small {
+.bloque_grove small,
+.bloque_starfish small,
+.bloque_vinewood small {
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
-.bloque h3 {
+.bloque_grove h3,
+.bloque_starfish h3,
+.bloque_vinewood h3 {
     font-family: 'Anton', sans-serif;
     font-size: 2rem;
     text-transform: uppercase;
     margin: 0;
     line-height: 1;
 }
-.bloque.naranja { background-color: #ffb457; }
-.bloque.rosa    { background-color: #c9308f; color: #fff; }
-.bloque.pequena { min-height: 140px; }
+.bloque_grove { 
+    background-color: #ffb457; 
+}
+.bloque_starfish    { 
+    background-color: #c9308f; 
+    color: #fff; 
+}
+.bloque_vinewood { 
+    background-color: #ffb457; 
+    min-height: 140px; 
+}
 
 /* Título centrado sobre el mosaico */
-.titulo-gta {
+.titulo_principal {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -90,7 +115,7 @@ body {
 }
 
 /* ---------- DERECHA ---------- */
-.columna-der {
+.zona_derecha {
     background-color: #fff3e6;
     display: flex;
     align-items: center;
@@ -98,19 +123,19 @@ body {
     padding: 40px;
 }
 
-.caja-login {
+.caja_formulario {
     width: 100%;
     max-width: 420px;
 }
 
-.etiqueta {
+.texto_panel {
     color: #7a6a8a;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 0.7rem;
 }
 
-.titulo-login {
+.titulo_iniciar_sesion {
     font-family: 'Anton', sans-serif;
     font-size: 2.8rem;
     text-transform: uppercase;
@@ -118,24 +143,24 @@ body {
     margin-bottom: 25px;
 }
 
-.caja-login label {
+.caja_formulario label {
     color: #3a1470;
     font-size: 0.85rem;
     margin-bottom: 6px;
 }
 
-.caja-login .form-control {
+.caja_formulario .form-control {
     background-color: #fff;
     border: 1px solid #e8d5e0;
     border-radius: 14px;
     padding: 12px;
 }
-.caja-login .form-control:focus {
+.caja_formulario .form-control:focus {
     border-color: #c9308f;
     box-shadow: 0 0 0 3px rgba(201, 48, 143, 0.2);
 }
 
-.btn-login {
+.boton_login {
     width: 100%;
     padding: 14px;
     border: none;
@@ -144,12 +169,236 @@ body {
     color: #fff;
     background-color: #c9308f;
 }
-.btn-login:hover {
+.boton_login:hover {
     background-color: #a82377;
 }
 
 /* Móvil */
 @media (max-width: 768px) {
-    .titulo-gta { font-size: 1.8rem; }
-    .img-mosaico.alta, .img-mosaico.grande { height: 220px; }
+
+    /* Quitamos el mosaico */
+    .zona_izquierda > .row {
+        display: none;
+    }
+
+    /* Una sola imagen de fondo */
+    .zona_izquierda {
+        background: url('../assets/images/palmeras.jpg') center / cover no-repeat;
+        min-height: 45vh;
+    }
+
+    /* Formulario con esquinas redondeadas subiendo sobre la imagen */
+    .zona_derecha {
+        border-radius: 25px 25px 0 0;
+        margin-top: -25px;
+        position: relative;
+    }
+
+    .titulo_principal {
+        font-size: 2rem;
+    }
+}
+
+
+
+/* CSS de Salas*/
+
+.navbar_gaming {
+    background-color: #270b52;
+    padding: 14px 0;
+    border-bottom: 3px solid #c9308f;
+}
+
+.logo_navbar {
+    font-family: 'Pricedown', 'Anton', sans-serif;
+    font-size: 1.9rem;
+    color: #fff;
+    -webkit-text-stroke: 1px #000;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.usuario_activo {
+    color: #fff3e6;
+    font-size: 0.9rem;
+}
+
+.btn_nav_secundario {
+    color: #ffb457;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+.btn_nav_secundario:hover {
+    color: #fff;
+}
+
+.btn_cerrar_sesion {
+    background-color: #c9308f;
+    color: #fff;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+.btn_cerrar_sesion:hover {
+    background-color: #a82377;
+    color: #fff;
+}
+
+.titulo_seccion {
+    font-family: 'Anton', sans-serif;
+    font-size: 2.5rem;
+    color: #fff3e6;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* Tarjeta de cada Sala */
+.tarjeta_sala {
+    background-color: #fff3e6;
+    border-radius: 18px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
+}
+
+.cabecera_sala {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.cabecera_sala small {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.cabecera_sala h3 {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    margin: 4px 0 0 0;
+    line-height: 1;
+}
+
+/* Colores según tipo de sala reutilizando tu paleta */
+.cabecera_pc {
+    background-color: #ffb457;
+    color: #3a1470;
+}
+
+.cabecera_consolas {
+    background-color: #c9308f;
+    color: #fff;
+}
+
+.cabecera_vip {
+    background-color: #240946;
+    color: #ffb457;
+    border-bottom: 3px solid #ffb457;
+}
+
+.badge_capacidad {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 3px 9px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.cuerpo_sala {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+/* Filas de cada módulo */
+.fila_modulo {
+    background-color: #fff;
+    border: 1px solid #e8d5e0;
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modulo_disponible {
+    border-left: 6px solid #2ed573;
+}
+
+.modulo_ocupado {
+    border-left: 6px solid #c9308f;
+    background-color: #fdf6fa;
+}
+
+.titulo_modulo {
+    font-weight: 700;
+    color: #3a1470;
+    font-size: 0.95rem;
+}
+
+.tipo_modulo {
+    background-color: #f0e6f5;
+    color: #3a1470;
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    margin-left: 5px;
+    font-weight: 600;
+}
+
+.info_modulo {
+    color: #7a6a8a;
+    font-size: 0.78rem;
+}
+
+.input_jugadores {
+    width: 58px;
+    padding: 5px 6px;
+    border: 1px solid #e8d5e0;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.btn_accion {
+    border: none;
+    border-radius: 9px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn_ocupar {
+    background-color: #3a1470;
+}
+.btn_ocupar:hover {
+    background-color: #531e9e;
+}
+
+.btn_liberar {
+    background-color: #c9308f;
+}
+.btn_liberar:hover {
+    background-color: #a82377;
+}
+
+.badge_bloqueado {
+    background-color: #e8d5e0;
+    color: #7a6a8a;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
 }

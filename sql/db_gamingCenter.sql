@@ -56,8 +56,6 @@ FOREIGN KEY (id_gamemaster) REFERENCES gamemasters(id_gamemaster);
 
 
 
-
-
 USE db_gamingCenter;
 
 
@@ -86,17 +84,17 @@ VALUES
 INSERT INTO salas
 (nombre, tipo)
 VALUES
-('Portland', 'PC Standard'),
-('Grove Street', 'PC Standard'),
-('Algonquin', 'PC Standard'),
-('Ocean Beach', 'PC Standard'),
+('Downtown', 'PC Standard'),
+('Little Haiti', 'PC Standard'),
+('Little Havana', 'PC Standard'),
+('Escobar International Airport', 'PC Standard'),
 
-('Las Venturas', 'Simuladores/Consolas'),
-('Vespucci Beach', 'Simuladores/Consolas'),
-('Leonida Keys', 'Simuladores/Consolas'),
+('Leaf Links', 'Simuladores/Consolas'),
+('Starfish Island', 'Simuladores/Consolas'),
+('Ocean Beach', 'Simuladores/Consolas'),
 
-('Starfish Island', 'VIP'),
-('Vinewood Hills', 'VIP');
+('Vice Point', 'VIP'),
+('Prawn Island', 'VIP');
 
 
 -- ==========================================
@@ -104,7 +102,7 @@ VALUES
 -- ==========================================
 
 -- ------------------------------------------
--- SALA 1 - PORTLAND
+-- SALA 1 - DOWNTOWN
 -- PC STANDARD
 -- ------------------------------------------
 
@@ -118,7 +116,7 @@ VALUES
 
 
 -- ------------------------------------------
--- SALA 2 - GROVE STREET
+-- SALA 2 - LITTLE HAITI
 -- PC STANDARD
 -- ------------------------------------------
 
@@ -132,7 +130,7 @@ VALUES
 
 
 -- ------------------------------------------
--- SALA 3 - ALGONQUIN
+-- SALA 3 - LITTLE HAVANA
 -- PC STANDARD
 -- ------------------------------------------
 
@@ -147,7 +145,7 @@ VALUES
 
 
 -- ------------------------------------------
--- SALA 4 - OCEAN BEACH
+-- SALA 4 - ESCOBAR INTERNATIONAL AIRPORT
 -- PC STANDARD
 -- ------------------------------------------
 
@@ -162,7 +160,7 @@ VALUES
 
 
 -- ------------------------------------------
--- SALA 5 - LAS VENTURAS
+-- SALA 5 - LEAF LINKS
 -- SIMULADORES / CONSOLAS
 -- ------------------------------------------
 
@@ -177,7 +175,7 @@ VALUES
 
 
 -- ------------------------------------------
--- SALA 6 - VESPUCCI BEACH
+-- SALA 6 - STARFISH ISLAND
 -- SIMULADORES / CONSOLAS
 -- ------------------------------------------
 
@@ -192,7 +190,7 @@ VALUES
 
 
 -- ------------------------------------------
--- SALA 7 - LEONIDA KEYS
+-- SALA 7 - OCEAN BEACH
 -- SIMULADORES / CONSOLAS
 -- ------------------------------------------
 
@@ -207,7 +205,7 @@ VALUES
 
 
 -- ------------------------------------------
--- SALA 8 - STARFISH ISLAND
+-- SALA 8 - VICE POINT
 -- VIP
 -- ------------------------------------------
 
@@ -220,7 +218,7 @@ VALUES
 
 
 -- ------------------------------------------
--- SALA 9 - VINEWOOD HILLS
+-- SALA 9 - PRAWN ISLAND
 -- VIP
 -- ------------------------------------------
 
@@ -240,25 +238,25 @@ INSERT INTO ocupaciones
 (fecha_inicio, fecha_fin, id_modulo, id_gamemaster)
 VALUES
 
--- Portland 1.1 - Solo
+-- Downtown 1.1 - Solo
 ('2026-11-09 17:40:00', NULL, 1, 1),
 
--- Algonquin 3.2 - Solo
+-- Little Havana 3.2 - Solo
 ('2026-11-09 18:05:00', NULL, 10, 3),
 
--- Algonquin 3.4 - Duo
+-- Little Havana 3.4 - Duo
 ('2026-11-09 18:20:00', NULL, 12, 2),
 
--- Las Venturas 5.1 - Party
+-- Leaf Links 5.1 - Party
 ('2026-11-09 17:15:00', NULL, 17, 4),
 
--- Las Venturas 5.2 - Party
+-- Leaf Links 5.2 - Party
 ('2026-11-09 18:10:00', NULL, 18, 5),
 
--- Vespucci Beach 6.1 - Party
+-- Starfish Island 6.1 - Party
 ('2026-11-09 16:50:00', NULL, 22, 6),
 
--- Starfish Island 8.1 - Party
+-- Vice Point 8.1 - Party
 ('2026-11-09 17:30:00', NULL, 32, 3);
 
 

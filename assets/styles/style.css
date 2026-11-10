@@ -1,0 +1,97 @@
+body {
+    font-family: 'Outfit', sans-serif;
+    margin: 0;
+    color: #fff;
+}
+
+/* Columna izquierda: degradado atardecer */
+.columna-izq {
+    background: url('../images/fondo.jpg');
+    padding: 40px;
+}
+
+.titulo {
+    font-family: 'Anton', sans-serif;
+    font-size: 4.5rem;
+    text-transform: uppercase;
+    line-height: 1;
+    margin: 0;
+}
+
+.subtitulo {
+    font-family: 'Anton', sans-serif;
+    color: #ffb457;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+
+.foto-equipo {
+    max-width: 100%;
+    border-radius: 16px;
+}
+
+/* Columna derecha: formulario */
+.columna-der {
+    background-color: #3a1470;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.caja-login {
+    width: 100%;
+    max-width: 420px;
+}
+
+.titulo-login {
+    font-family: 'Anton', sans-serif;
+    font-size: 2.8rem;
+    text-transform: uppercase;
+}
+
+.texto-login {
+    color: #d9c7f0;
+    margin-bottom: 25px;
+}
+
+.caja-login label {
+    color: #d9c7f0;
+    margin-bottom: 6px;
+}
+
+.caja-login .form-control {
+    background-color: #25093f;
+    border: 1px solid #5b3a8c;
+    color: #fff;
+    padding: 14px;
+    border-radius: 14px;
+}
+
+.caja-login .form-control:focus {
+    background-color: #25093f;
+    color: #fff;
+    border-color: #ffb457;
+    box-shadow: none;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    font-weight: 600;
+    color: #2a0e52;
+    background: linear-gradient(90deg, #c9308f, #ffb457);
+}
+
+/* Móvil: las columnas pasan a ocupar todo el ancho */
+@media (max-width: 768px) {
+    .col-6 {
+        width: 100%;
+    }
+    .titulo {
+        font-size: 3rem;
+    }
+}

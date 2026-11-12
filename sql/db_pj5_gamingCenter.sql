@@ -60,9 +60,7 @@ FOREIGN KEY (id_gamemaster) REFERENCES gamemasters(id_gamemaster);
 USE db_pj5_gamingCenter;
 
 
--- ==========================================
 -- GAMEMASTERS
--- ==========================================
 
 INSERT INTO gamemasters
 (username, password, nom_real, cognom_real)
@@ -74,12 +72,12 @@ VALUES
 ('shadowGM', '$2y$12$N8W3sPQCIfF6M9D2RocNBef/4h6DJfgfyqrSyERhb5GW0q0y9ak1W', 'Sergio', 'Rodríguez'), -- qweQWE123
 ('levelMaster', '$2y$12$N8W3sPQCIfF6M9D2RocNBef/4h6DJfgfyqrSyERhb5GW0q0y9ak1W', 'Ana', 'Martínez'); -- qweQWE123
 
--- ==========================================
+
 -- SALAS
 -- 4 PC STANDARD
 -- 3 SIMULADORES/CONSOLAS
 -- 2 VIP
--- ==========================================
+
 
 INSERT INTO salas
 (nombre, tipo)
@@ -97,14 +95,13 @@ VALUES
 ('Prawn Island', 'VIP');
 
 
--- ==========================================
--- MÓDULOS
--- ==========================================
 
--- ------------------------------------------
+-- MÓDULOS
+
+
+
 -- SALA 1 - DOWNTOWN
 -- PC STANDARD
--- ------------------------------------------
 
 INSERT INTO modulos
 (nombre, tipo, capacidad, estado, id_sala)
@@ -115,10 +112,9 @@ VALUES
 ('1.4', 'Squad', 5, 'Disponible', 1);
 
 
--- ------------------------------------------
+
 -- SALA 2 - LITTLE HAITI
 -- PC STANDARD
--- ------------------------------------------
 
 INSERT INTO modulos
 (nombre, tipo, capacidad, estado, id_sala)
@@ -129,10 +125,9 @@ VALUES
 ('2.4', 'Solo', 1, 'Disponible', 2);
 
 
--- ------------------------------------------
+
 -- SALA 3 - LITTLE HAVANA
 -- PC STANDARD
--- ------------------------------------------
 
 INSERT INTO modulos
 (nombre, tipo, capacidad, estado, id_sala)
@@ -144,10 +139,9 @@ VALUES
 ('3.5', 'Solo', 1, 'Disponible', 3);
 
 
--- ------------------------------------------
+
 -- SALA 4 - ESCOBAR INTERNATIONAL AIRPORT
 -- PC STANDARD
--- ------------------------------------------
 
 INSERT INTO modulos
 (nombre, tipo, capacidad, estado, id_sala)
@@ -159,10 +153,9 @@ VALUES
 ('4.5', 'Solo', 1, 'Disponible', 4);
 
 
--- ------------------------------------------
+
 -- SALA 5 - LEAF LINKS
 -- SIMULADORES / CONSOLAS
--- ------------------------------------------
 
 INSERT INTO modulos
 (nombre, tipo, capacidad, estado, id_sala)
@@ -174,10 +167,9 @@ VALUES
 ('5.5', 'Solo', 1, 'Disponible', 5);
 
 
--- ------------------------------------------
+
 -- SALA 6 - STARFISH ISLAND
 -- SIMULADORES / CONSOLAS
--- ------------------------------------------
 
 INSERT INTO modulos
 (nombre, tipo, capacidad, estado, id_sala)
@@ -189,10 +181,9 @@ VALUES
 ('6.5', 'Solo', 1, 'Disponible', 6);
 
 
--- ------------------------------------------
+
 -- SALA 7 - OCEAN BEACH
 -- SIMULADORES / CONSOLAS
--- ------------------------------------------
 
 INSERT INTO modulos
 (nombre, tipo, capacidad, estado, id_sala)
@@ -204,10 +195,9 @@ VALUES
 ('7.5', 'Solo', 1, 'Disponible', 7);
 
 
--- ------------------------------------------
+
 -- SALA 8 - VICE POINT
 -- VIP
--- ------------------------------------------
 
 INSERT INTO modulos
 (nombre, tipo, capacidad, estado, id_sala)
@@ -217,10 +207,9 @@ VALUES
 ('8.3', 'Solo', 1, 'Disponible', 8);
 
 
--- ------------------------------------------
+
 -- SALA 9 - PRAWN ISLAND
 -- VIP
--- ------------------------------------------
 
 INSERT INTO modulos
 (nombre, tipo, capacidad, estado, id_sala)
@@ -230,9 +219,8 @@ VALUES
 ('9.3', 'Duo', 2, 'Disponible', 9);
 
 
--- ==========================================
+
 -- OCUPACIONES ACTUALES
--- ==========================================
 
 INSERT INTO ocupaciones
 (fecha_inicio, fecha_fin, id_modulo, id_gamemaster)
@@ -260,9 +248,8 @@ VALUES
 ('2026-11-09 17:30:00', NULL, 32, 3);
 
 
--- ==========================================
+
 -- OCUPACIONES HISTÓRICAS
--- ==========================================
 
 INSERT INTO ocupaciones
 (fecha_inicio, fecha_fin, id_modulo, id_gamemaster)

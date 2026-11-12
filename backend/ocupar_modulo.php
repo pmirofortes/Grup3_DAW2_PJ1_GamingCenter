@@ -15,12 +15,18 @@ if (!$idModulo) {
     exit();
 }
 
+// Si se salta el "required" del desplegable y llega 0 o vacío
+if (!$personas) {
+    header('Location: ' . $volver . 'error=sin_personas');
+    exit();
+}
+
 // El formulario se puede trucar: comprobar que las personas caben en el módulo
 $stmt = $conn->prepare("SELECT capacidad FROM modulos WHERE id_modulo = :id");
 $stmt->execute([':id' => $idModulo]);
 $capacidad = $stmt->fetchColumn();
 
-if (!$personas || $capacidad === false || $personas > $capacidad) {
+if ($capacidad === false || $personas > $capacidad) {
     header('Location: ' . $volver . 'error=num_personas');
     exit();
 }

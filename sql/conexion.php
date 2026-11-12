@@ -1,8 +1,8 @@
 <?php
 
-$servername = "db"; // Nombre del servidor
-$dbusername = "nahuel"; // Nombre de usuario
-$dbpassword = "95f97h0c"; // Contraseña
+$servername = "localhost"; // Nombre del servidor
+$dbusername = "root"; // Nombre de usuario
+$dbpassword = ""; // Contraseña
 $dbname = "db_pj5_gamingCenter"; // Nombre de la base de datos
 
 try {

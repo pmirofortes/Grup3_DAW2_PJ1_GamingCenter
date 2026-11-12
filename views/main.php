@@ -1,160 +1,106 @@
-<?php
-
-require_once __DIR__ . '/../includes/session.php';
-require_once __DIR__ . '/../sql/conexion.php';
-
-/** @var PDO $conn  (se crea en conexion.php) */
-
-$sql = "SELECT COUNT(*) AS totalSalas FROM salas";
-$stmt = $conn->prepare($sql);
-$stmt->execute();
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
-$totalSalas = $result['totalSalas'];
-
-// Salas con sus módulos (LEFT JOIN para que salgan también las salas sin módulos)
-// y el gamemaster de la ocupación abierta de cada módulo, si la hay
-$sql = "SELECT s.id_sala, s.nombre AS sala, s.tipo AS tipo_sala,
-               m.id_modulo, m.nombre AS modulo, m.tipo AS tipo_modulo, m.capacidad, m.estado,
-               o.id_gamemaster AS ocupado_por, o.num_personas
-        FROM salas s
-        LEFT JOIN modulos m ON m.id_sala = s.id_sala
-        LEFT JOIN ocupaciones o ON o.id_modulo = m.id_modulo AND o.fecha_fin IS NULL
-        ORDER BY s.id_sala, m.id_modulo";
-$stmt = $conn->prepare($sql);
-$stmt->execute();
-$filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Agrupar los módulos por sala y contar los libres
-$salas = [];
-foreach ($filas as $fila) {
-    $id = $fila['id_sala'];
-
-    if (!isset($salas[$id])) {
-        $salas[$id] = [
-            'nombre'  => $fila['sala'],
-            'tipo'    => $fila['tipo_sala'],
-            'modulos' => [],
-            'libres'  => 0,
-        ];
-    }
-
-    if ($fila['id_modulo'] !== null) {
-        $salas[$id]['modulos'][] = $fila;
-
-        if ($fila['estado'] === 'Disponible') {
-            $salas[$id]['libres']++;
-        }
-    }
-}
-
-// Sala abierta en el panel derecho (?id_sala=X)
-$idSala = filter_input(INPUT_GET, 'id_sala', FILTER_VALIDATE_INT);
-$salaAbierta = ($idSala && isset($salas[$idSala])) ? $salas[$idSala] : null;
-
-?>
-
+<?php require_once __DIR__ . '/../backend/cargar_salas.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salas</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/styles/style.css?v=<?= filemtime(__DIR__ . '/../assets/styles/style.css') ?>">
 </head>
-<body>
+<body class="pagina-salas">
     <?php include '../includes/header.php'; ?>
 
-    <?php
-    $mensajes = [
-        'modulo_ocupado'   => 'Módulo ocupado correctamente.',
-        'modulo_liberado'  => 'Módulo liberado correctamente.',
-    ];
-    $errores = [
-        'modulo_ocupado'   => 'Ese módulo ya está ocupado.',
-        'no_es_tuyo'       => 'Solo puedes liberar los módulos que has ocupado tú.',
-        'num_personas'     => 'El número de personas no cabe en ese módulo.',
-    ];
+    <main class="salas">
+        <!-- La búsqueda filtra al escribir (main.js). El tipo recarga la página -->
+        <form id="filtro" class="filtros">
+            <input type="search" id="buscador" class="buscador" name="q" placeholder="Buscar sala o módulo (7.1)" value="<?= htmlspecialchars($busqueda) ?>" autocomplete="off">
+            <label class="pastilla"><input type="radio" name="tipo" value="" <?= $tipo === '' ? 'checked' : '' ?>> Todas</label>
+            <?php foreach ($tipos as $valor => $texto) { ?>
+                <label class="pastilla"><input type="radio" name="tipo" value="<?= $valor ?>" <?= $tipo === $valor ? 'checked' : '' ?>> <?= $texto ?></label>
+            <?php } ?>
+        </form>
 
-    if (isset($_GET['ok'], $mensajes[$_GET['ok']])) { ?>
-        <p><?= $mensajes[$_GET['ok']] ?></p>
-    <?php } elseif (isset($_GET['error'])) { ?>
-        <p><?= $errores[$_GET['error']] ?? 'Ha ocurrido un error, inténtalo de nuevo.' ?></p>
-    <?php } ?>
+        <!-- Mapa: cada sala es un enlace con su zona (SVG) y su pin -->
+        <div class="mapa-hueco">
+            <div class="mapa">
+                <?php foreach ($salas as $id => $sala) { ?>
+                    <a href="?tipo=<?= urlencode($tipo) ?>&q=<?= urlencode($busqueda) ?>&id_sala=<?= $id ?>"
+                       class="sala <?= $id === $idSala ? 'activa' : '' ?> <?= $sala['apagada'] ? 'apagada' : '' ?>"
+                       data-nombre="<?= htmlspecialchars($sala['nombre']) ?>"
+                       data-tipo="<?= $sala['tipo'] ?>"
+                       data-modulos="<?= implode(' ', array_column($sala['modulos'], 'modulo')) ?>">
+                        <svg viewBox="0 0 1499 1049"><path d="<?= $sala['forma'] ?>"></path></svg>
+                        <span class="pin" style="left: <?= $sala['pin'][0] ?>%; top: <?= $sala['pin'][1] ?>%">
+                            <?= $sala['libres'] ?>/<?= count($sala['modulos']) ?>
+                            <?php foreach ($sala['modulos'] as $modulo) { ?>
+                                <span class="punto <?= $modulo['punto'] ?>"><?= $modulo['letra'] ?></span>
+                            <?php } ?>
+                        </span>
+                    </a>
+                <?php } ?>
+            </div>
+        </div>
 
-    <div class="container-fluid">
-        <div class="row">
+        <!-- Panel de la sala abierta -->
+        <section class="panel">
+            <div class="panel-cabecera">
+                <?php if ($salaAbierta) { ?>
+                    <small>Sala <?= $idSala ?> · <?= $salaAbierta['tipo'] ?></small>
+                    <h2><?= htmlspecialchars($salaAbierta['nombre']) ?></h2>
+                    <p><?= $salaAbierta['libres'] ?> de <?= count($salaAbierta['modulos']) ?> módulos libres</p>
+                <?php } else { ?>
+                    <h2>Elige una sala</h2>
+                    <p>Pulsa una sala del mapa para ver sus módulos.</p>
+                <?php } ?>
+            </div>
 
-            <!-- IZQUIERDA (66%): salas -->
-            <div class="col-lg-8">
-                <p>Número total de salas: <?= $totalSalas ?></p>
+            <?php if ($aviso) { ?>
+                <p class="aviso <?= $avisoError ? 'error' : '' ?>"><?= $aviso ?></p>
+            <?php } ?>
 
-                <ul>
-                    <?php foreach ($salas as $id => $sala) { ?>
-                        <li>
-                            <a href="?id_sala=<?= $id ?>">
-                                <?= htmlspecialchars($sala['nombre']) ?> (<?= htmlspecialchars($sala['tipo']) ?>)
-                            </a>
+            <?php if ($salaAbierta) { ?>
+                <ul class="modulos">
+                    <?php foreach ($salaAbierta['modulos'] as $modulo) { ?>
+                        <li class="modulo">
+                            <span class="punto <?= $modulo['punto'] ?>"><?= $modulo['letra'] ?></span>
+                            <div class="modulo-info">
+                                <b>Módulo <?= $modulo['modulo'] ?> · <?= $modulo['tipo_modulo'] ?></b>
+                                <small><?= htmlspecialchars($modulo['detalle']) ?></small>
+                            </div>
+
+                            <?php if ($modulo['punto'] === 'libre') { ?>
+                                <form action="../backend/ocupar_modulo.php" method="POST">
+                                    <input type="hidden" name="id_modulo" value="<?= $modulo['id_modulo'] ?>">
+                                    <input type="hidden" name="id_sala" value="<?= $idSala ?>">
+                                    <?php if ($modulo['capacidad'] > 1) { ?>
+                                        <!-- Empieza en 0 (vacío) y es obligatorio: hay que elegir cuántas personas son -->
+                                        <select name="num_personas" required>
+                                            <option value="">0</option>
+                                            <?php for ($i = 1; $i <= $modulo['capacidad']; $i++) { ?>
+                                                <option value="<?= $i ?>"><?= $i ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    <?php } else { ?>
+                                        <input type="hidden" name="num_personas" value="1">
+                                    <?php } ?>
+                                    <button type="submit" class="btn-ocupar">Ocupar</button>
+                                </form>
+                            <?php } elseif ($modulo['punto'] === 'mio') { ?>
+                                <form action="../backend/liberar_modulo.php" method="POST">
+                                    <input type="hidden" name="id_modulo" value="<?= $modulo['id_modulo'] ?>">
+                                    <input type="hidden" name="id_sala" value="<?= $idSala ?>">
+                                    <button type="submit" class="btn-liberar">Liberar</button>
+                                </form>
+                            <?php } ?>
                         </li>
                     <?php } ?>
                 </ul>
-            </div>
-
-            <!-- DERECHA (33%): panel de la sala abierta -->
-            <?php if ($salaAbierta) { ?>
-                <div class="col-lg-4">
-                    <h2><?= htmlspecialchars($salaAbierta['nombre']) ?></h2>
-                    <p><?= $salaAbierta['libres'] ?>/<?= count($salaAbierta['modulos']) ?> módulos libres</p>
-
-                    <?php if (empty($salaAbierta['modulos'])) { ?>
-                        <p>Esta sala no tiene módulos.</p>
-                    <?php } else { ?>
-                        <ul>
-                            <?php foreach ($salaAbierta['modulos'] as $modulo) { ?>
-                                <li>
-                                    Módulo <?= htmlspecialchars($modulo['modulo']) ?> ·
-                                    <?= htmlspecialchars($modulo['tipo_modulo']) ?> ·
-                                    Capacidad: <?= $modulo['capacidad'] ?> ·
-                                    <?= htmlspecialchars($modulo['estado']) ?>
-                                    <?php if ($modulo['num_personas'] !== null) { ?>
-                                        (<?= $modulo['num_personas'] ?> de <?= $modulo['capacidad'] ?> personas)
-                                    <?php } ?>
-
-                                    <?php if ($modulo['estado'] === 'Disponible') { ?>
-                                        <form action="../backend/ocupar_modulo.php" method="POST">
-                                            <input type="hidden" name="id_modulo" value="<?= $modulo['id_modulo'] ?>">
-                                            <input type="hidden" name="id_sala" value="<?= $idSala ?>">
-
-                                            <?php if ($modulo['capacidad'] > 1) { ?>
-                                                <label>
-                                                    Personas:
-                                                    <select name="num_personas">
-                                                        <?php for ($i = 1; $i <= $modulo['capacidad']; $i++) { ?>
-                                                            <option value="<?= $i ?>"><?= $i ?></option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </label>
-                                            <?php } else { ?>
-                                                <input type="hidden" name="num_personas" value="1">
-                                            <?php } ?>
-
-                                            <button type="submit">Ocupar</button>
-                                        </form>
-                                    <?php } elseif ($modulo['ocupado_por'] == $idGamemaster) { ?>
-                                        <form action="../backend/liberar_modulo.php" method="POST">
-                                            <input type="hidden" name="id_modulo" value="<?= $modulo['id_modulo'] ?>">
-                                            <input type="hidden" name="id_sala" value="<?= $idSala ?>">
-                                            <button type="submit">Liberar</button>
-                                        </form>
-                                    <?php } ?>
-                                </li>
-                            <?php } ?>
-                        </ul>
-                    <?php } ?>
-                </div>
             <?php } ?>
+        </section>
+    </main>
 
-        </div>
-    </div>
-
+    <script src="../assets/scripts/main.js?v=<?= filemtime(__DIR__ . '/../assets/scripts/main.js') ?>"></script>
 </body>
 </html>

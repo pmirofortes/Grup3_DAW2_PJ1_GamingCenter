@@ -1,6 +1,6 @@
 <?php
 
-$servername = "localhost"; // Nombre del servidor
+$servername = "localhost"; // Host local de WAMP/XAMPP
 $dbusername = "root"; // Nombre de usuario
 $dbpassword = ""; // Contraseña
 $dbname = "db_pj5_gamingCenter"; // Nombre de la base de datos

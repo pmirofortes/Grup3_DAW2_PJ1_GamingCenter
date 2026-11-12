@@ -1,25 +1,25 @@
 const filtro = document.getElementById('filtro');
 const buscador = document.getElementById('buscador');
-const radiosTipo = document.querySelectorAll('#filtro input[name="tipo"]');
+const salas = document.querySelectorAll('.sala');
 
-// Filtra la lista de salas por nombre mientras se escribe en el buscador
+// Apaga en el mapa las salas que no coinciden con el tipo elegido o con lo que se escribe
+// (el texto vale para el nombre de la sala o para el principio de un módulo, como 7.1)
 function filtrarSalas() {
-    const busqueda = buscador.value.trim().toLowerCase();
-    const salas = document.querySelectorAll('#lista-salas li');
+    const texto = buscador.value.trim().toLowerCase();
+    const tipo = filtro.tipo.value;
 
     for (const sala of salas) {
-        const nombre = sala.dataset.nombre.toLowerCase();
-        sala.classList.toggle('oculto', !nombre.includes(busqueda));
-    }
-}
+        const coincideTipo = tipo === '' || sala.dataset.tipo === tipo;
+        const coincideTexto = sala.dataset.nombre.toLowerCase().includes(texto)
+            || sala.dataset.modulos.split(' ').some(modulo => modulo.startsWith(texto));
 
-// Envía el formulario del filtro al cambiar el tipo de sala
-function enviarFiltro() {
-    filtro.submit();
+        sala.classList.toggle('apagada', !(coincideTipo && coincideTexto));
+    }
 }
 
 buscador.oninput = filtrarSalas;
 
-for (const radio of radiosTipo) {
-    radio.onchange = enviarFiltro;
+// Al cambiar el tipo se envía el formulario
+for (const radio of filtro.tipo) {
+    radio.onchange = () => filtro.submit();
 }

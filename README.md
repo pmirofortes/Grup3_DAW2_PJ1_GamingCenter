@@ -80,8 +80,8 @@ Todos los gamemasters tienen la misma contraseña: `qweQWE123`.
  
 ## Organización del trabajo
  
-- La planificación está en el archivo `Gantt.xlsx`, con las tareas, los responsables y el registro de los daily meetings.
-- El diseño previo se realizó en Figma: (añadir enlace).
+- La planificación está en el archivo `Gantt.xlsx`, con las tareas, los responsables y el registro de los daily meetings:  [Excel del proyecto](https://docs.google.com/spreadsheets/d/19Ppj0Jhd4vAAdkHqJuHcli2SIUYos9fQNYcDNrTXZoI/edit?usp=sharing)
+- El diseño previo se realizó en Figma: [Diseño en Figma](https://www.figma.com/design/hB93fuopu97sXgJor9hawv/Gaming-Center?node-id=159-418&t=1UDtYEnEws4saeCh-1).
 - Cada integrante trabaja en su propia rama y se integra en `main` al final.
 
  

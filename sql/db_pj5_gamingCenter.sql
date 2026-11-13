@@ -227,25 +227,25 @@ INSERT INTO ocupaciones
 VALUES
 
 -- Downtown 1.1 - Solo
-('2026-11-09 17:40:00', NULL, 1, 1),
+('2026-11-09 17:40:00', NULL, (SELECT id_modulo FROM modulos WHERE nombre = '1.1'), 1),
 
 -- Little Havana 3.2 - Solo
-('2026-11-09 18:05:00', NULL, 10, 3),
+('2026-11-09 18:05:00', NULL, (SELECT id_modulo FROM modulos WHERE nombre = '3.2'), 3),
 
 -- Little Havana 3.4 - Duo
-('2026-11-09 18:20:00', NULL, 12, 2),
+('2026-11-09 18:20:00', NULL, (SELECT id_modulo FROM modulos WHERE nombre = '3.4'), 2),
 
 -- Leaf Links 5.1 - Party
-('2026-11-09 17:15:00', NULL, 17, 4),
+('2026-11-09 17:15:00', NULL, (SELECT id_modulo FROM modulos WHERE nombre = '5.1'), 4),
 
 -- Leaf Links 5.2 - Party
-('2026-11-09 18:10:00', NULL, 18, 5),
+('2026-11-09 18:10:00', NULL, (SELECT id_modulo FROM modulos WHERE nombre = '5.2'), 5),
 
 -- Starfish Island 6.1 - Party
-('2026-11-09 16:50:00', NULL, 22, 6),
+('2026-11-09 16:50:00', NULL, (SELECT id_modulo FROM modulos WHERE nombre = '6.1'), 6),
 
 -- Vice Point 8.1 - Party
-('2026-11-09 17:30:00', NULL, 32, 3);
+('2026-11-09 17:30:00', NULL, (SELECT id_modulo FROM modulos WHERE nombre = '8.1'), 3);
 
 
 

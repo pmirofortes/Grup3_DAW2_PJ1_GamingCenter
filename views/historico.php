@@ -114,6 +114,18 @@ function formatoFechaGrupo($fecha)
 
     return (int) date('j', $timestamp) . ' ' . $meses[(int) date('n', $timestamp)] . ' ' . date('Y', $timestamp);
 }
+
+$clasesSalas = [
+    'Downtown' => 'downtown',
+    'Little Haiti' => 'little-haiti',
+    'Little Havana' => 'little-havana',
+    'Escobar International Airport' => 'escobar-airport',
+    'Leaf Links' => 'leaf-links',
+    'Starfish Island' => 'starfish-island',
+    'Ocean Beach' => 'ocean-beach',
+    'Vice Point' => 'vice-point',
+    'Prawn Island' => 'prawn-island',
+];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -194,6 +206,7 @@ function formatoFechaGrupo($fecha)
                                     $horaFin = $enCurso ? null : date('H:i', strtotime($reserva['fecha_fin']));
                                     $nombreResponsable = $reserva['nom_real'] . ' ' . $reserva['cognom_real'];
                                     $idReserva = '#R-' . str_pad((string) $reserva['id_ocupacion'], 3, '0', STR_PAD_LEFT);
+                                    $claseSala = $clasesSalas[$reserva['sala']] ?? 'otra';
                                 ?>
                                     <article class="historial-reserva" aria-label="Reserva <?= htmlspecialchars($idReserva, ENT_QUOTES, 'UTF-8') ?>">
                                         <div class="historial-reserva-id">
@@ -207,7 +220,7 @@ function formatoFechaGrupo($fecha)
                                         </div>
                                         <div class="historial-reserva-sala">
                                             <span class="visually-hidden">Sala: </span>
-                                            <span class="historial-sala"><?= htmlspecialchars($reserva['sala'], ENT_QUOTES, 'UTF-8') ?></span>
+                                            <span class="historial-sala <?= htmlspecialchars($claseSala, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($reserva['sala'], ENT_QUOTES, 'UTF-8') ?></span>
                                         </div>
                                         <div class="historial-reserva-modulo">
                                             <span class="visually-hidden">Modalidad: </span>

@@ -442,8 +442,49 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
     font-size: 0.7rem;
 }
 
+.historial-reserva-sala {
+    overflow-wrap: anywhere;
+}
+
 .historial-sala {
-    font-weight: 600;
+    display: block;
+    font: 1.6rem/0.95 'Anton', sans-serif;
+    text-transform: uppercase;
+}
+
+.historial-sala.downtown,
+.historial-sala.prawn-island {
+    color: #c96320;
+}
+
+.historial-sala.little-haiti,
+.historial-sala.ocean-beach {
+    color: #16847f;
+}
+
+.historial-sala.little-havana {
+    color: #a52c31;
+}
+
+.historial-sala.escobar-airport,
+.historial-sala.vice-point {
+    color: #65438f;
+}
+
+.historial-sala.leaf-links {
+    color: #238b48;
+}
+
+.historial-sala.starfish-island {
+    color: #277ba5;
+}
+
+.historial-sala.otra {
+    color: #35156a;
+}
+
+.historial-sala.escobar-airport {
+    font-size: 1.05rem;
 }
 
 .historial-estado {

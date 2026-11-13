@@ -77,17 +77,14 @@
                                 <form action="../backend/ocupar_modulo.php" method="POST">
                                     <input type="hidden" name="id_modulo" value="<?= $modulo['id_modulo'] ?>">
                                     <input type="hidden" name="id_sala" value="<?= $idSala ?>">
-                                    <?php if ($modulo['capacidad'] > 1) { ?>
-                                        <!-- Empieza en 0 (vacío) y es obligatorio: hay que elegir cuántas personas son -->
-                                        <select name="num_personas" required>
-                                            <option value="">0</option>
-                                            <?php for ($i = 1; $i <= $modulo['capacidad']; $i++) { ?>
-                                                <option value="<?= $i ?>"><?= $i ?></option>
-                                            <?php } ?>
-                                        </select>
-                                    <?php } else { ?>
-                                        <input type="hidden" name="num_personas" value="1">
-                                    <?php } ?>
+                                    <!-- Empieza en 0 (vacío) y es obligatorio: hay que elegir cuántas personas son,
+                                         también en los módulos de 1 plaza, para no ocupar sin querer -->
+                                    <select name="num_personas" required>
+                                        <option value="">0</option>
+                                        <?php for ($i = 1; $i <= $modulo['capacidad']; $i++) { ?>
+                                            <option value="<?= $i ?>"><?= $i ?></option>
+                                        <?php } ?>
+                                    </select>
                                     <button type="submit" class="btn-ocupar">Ocupar</button>
                                 </form>
                             <?php } elseif ($modulo['punto'] === 'mio') { ?>

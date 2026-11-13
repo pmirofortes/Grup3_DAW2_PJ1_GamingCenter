@@ -41,8 +41,8 @@ foreach ($filas as $fila) {
             'tipo'    => $fila['tipo_sala'],
             'modulos' => [],
             'libres'  => 0,
-            'pin'     => $zonas[$fila['sala']]['pin'] ?? [50, 50],
-            'forma'   => $zonas[$fila['sala']]['forma'] ?? '',
+            'pin'     => $zonas[$fila['sala']]['pin'] ?? [750, 525], // sin zona: centro del mapa
+            'zona'    => $zonas[$fila['sala']]['zona'] ?? '',
         ];
     }
 

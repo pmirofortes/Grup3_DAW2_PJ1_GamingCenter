@@ -4,6 +4,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
+// Vaciamos los datos y caducamos la cookie antes de cerrar la sesión.
 $_SESSION = [];
 
 if (ini_get('session.use_cookies')) {

@@ -7,6 +7,7 @@ $idModulo = filter_input(INPUT_GET, 'id_modulo', FILTER_VALIDATE_INT, ['options'
 $idSala = ($idSala === false || $idSala === null) ? null : $idSala;
 $idModulo = ($idModulo === false || $idModulo === null) ? null : $idModulo;
 
+// Evitamos tratar una búsqueda enviada como arreglo como si fuera texto
 $busqueda = $_GET['buscar'] ?? '';
 if (!is_string($busqueda)) {
     $busqueda = '';
@@ -36,6 +37,7 @@ $stmt = $conn->query(
 );
 $modulos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Cada filtro añade su condición y sus valores se pasan por separado a PDO
 $condiciones = [];
 $parametros = [];
 if ($idSala !== null) {
@@ -87,6 +89,7 @@ $stmt = $conn->prepare($sql);
 $stmt->execute($parametros);
 $ocupaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Separamos las reservas por fecha para darles una cabecera común en la vista.
 $ocupacionesPorFecha = [];
 foreach ($ocupaciones as $ocupacion) {
     $fecha = substr($ocupacion['fecha_inicio'], 0, 10);

@@ -6,7 +6,7 @@ require_once __DIR__ . '/../includes/session.php';
 require_once __DIR__ . '/../sql/conexion.php';
 $zonas = require __DIR__ . '/../includes/zonas_mapa.php';
 
-// Filtros que llegan por GET
+// Validamos los filtros antes de usarlos para no dejar valores fuera de las opciones.
 $tipos = [
     'PC Standard'          => 'PC Standard',
     'Simuladores/Consolas' => 'Simuladores',
@@ -19,7 +19,7 @@ if (!isset($tipos[$tipo])) {
 $busqueda = trim($_GET['q'] ?? '');
 $idSala = (int) ($_GET['id_sala'] ?? 0);
 
-// Salas con sus módulos y, si está ocupado, quién lo ocupa
+// Una fila por módulo; los LEFT JOIN conservan también las salas sin módulos.
 $sql = "SELECT s.id_sala, s.nombre AS sala, s.tipo AS tipo_sala,
                m.id_modulo, m.nombre AS modulo, m.tipo AS tipo_modulo, m.capacidad, m.estado,
                o.id_gamemaster AS ocupado_por, o.num_personas, o.fecha_inicio,
@@ -31,6 +31,7 @@ $sql = "SELECT s.id_sala, s.nombre AS sala, s.tipo AS tipo_sala,
         ORDER BY s.id_sala, m.id_modulo";
 $filas = $conn->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
+// La consulta repite los datos de sala, así que los reunimos en una sola entrada.
 $salas = [];
 foreach ($filas as $fila) {
     $id = $fila['id_sala'];
@@ -50,7 +51,7 @@ foreach ($filas as $fila) {
         continue;
     }
 
-    // Círculo del módulo (punto + letra) y texto que sale en el panel (detalle)
+    // Círculo del módulo punto + letra y texto que sale en el panel detalle
     if ($fila['estado'] === 'Disponible') {
         $salas[$id]['libres']++;
         $fila['punto'] = 'libre';
@@ -71,7 +72,7 @@ foreach ($filas as $fila) {
     $salas[$id]['modulos'][] = $fila;
 }
 
-// Las salas que no pasan el filtro no se quitan del mapa: se apagan
+// Se mantienen visibles para no mover el mapa, solo se oscurecen las que no coinciden.
 foreach ($salas as $id => $sala) {
     $encontrada = $busqueda === '' || mb_stripos($sala['nombre'], $busqueda) !== false;
     foreach ($sala['modulos'] as $modulo) {
@@ -84,7 +85,7 @@ foreach ($salas as $id => $sala) {
 
 $salaAbierta = $salas[$idSala] ?? null;
 
-// Mensaje después de ocupar o liberar (?ok=... o ?error=...)
+// Mensaje después de ocupar o liberar 
 $mensajes = [
     'modulo_ocupado'  => 'Módulo ocupado correctamente.',
     'modulo_liberado' => 'Módulo liberado correctamente.',

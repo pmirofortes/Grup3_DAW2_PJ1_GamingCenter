@@ -17,7 +17,7 @@
 <div class="container-fluid">
     <div class="row min-vh-100">
 
-        <!-- IZQUIERDA:  Contiene las  4 imagenes y 3 bloques -->
+        <!-- IZQUIERDA: Contiene las  4 imagenes y 3 bloques -->
         <!--col-12 ocupa todo la pagina y luego se va a dividir en bloque divido en la mitad con el col-6 -->
         <div class="col-12 col-md-6 zona_izquierda">
             <div class="row g-2">
@@ -30,7 +30,7 @@
                             <img src="./assets/images/palmeras.jpg" alt="Imagen 1" class="imagen_palmera">
                         </div>
                         <div class="col-12 ocupar_resto">
-                            <!-- 1r bloque -->
+                            <!-- Primer bloque -->
                             <div class="bloque_grove">
                                 <small>San Andreas · Sala 2</small>
                                 <h3>Grove Street</h3>
@@ -44,7 +44,7 @@
                     <div class="row g-2">
                         <div class="col-12">
                             <div class="bloque_starfish">
-                                <!-- 2n bloque -->
+                                <!-- Segundo bloque -->
                                 <small>Vice City · Sala 8</small>
                                 <h3>Starfish Island</h3>
                             </div>
@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="bloque_vinewood">
-                                        <!-- 3r bloque -->
+                                        <!-- Tercer bloque -->
                                         <small>GTA V · Sala 9</small>
                                         <h3>Vinewood Hills</h3>
                                     </div>
@@ -98,6 +98,7 @@
                     <div class="alert alert-success"><?= htmlspecialchars($mensaje, ENT_QUOTES, "UTF-8") ?></div>
                 <?php } ?>
 
+                <!-- La validación en el navegador da respuesta rápida, PHP vuelve a comprobar al recibir el formulario -->
                 <form action="" method="POST" id="formLogin" onsubmit="return validarTodo()">
                     <label for="usuario">Usuario</label>
                     <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" value="<?= htmlspecialchars($usuario, ENT_QUOTES, "UTF-8") ?>" aria-describedby="errUsuario">

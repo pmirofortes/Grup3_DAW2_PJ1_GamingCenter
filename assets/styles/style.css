@@ -197,7 +197,7 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
     color: #fff; 
 }
 
-/* Mapa: cabe entero en su hueco (cqw y cqh son el ancho y el alto del hueco) */
+/* El contenedor permite ajustar el mapa al hueco sin deformar su proporción. */
 .mapa-hueco { 
     min-height: 0; 
     container-type: size; 

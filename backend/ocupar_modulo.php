@@ -7,7 +7,7 @@ $idModulo = filter_input(INPUT_POST, 'id_modulo', FILTER_VALIDATE_INT);
 $idSala   = filter_input(INPUT_POST, 'id_sala', FILTER_VALIDATE_INT);
 $personas = filter_input(INPUT_POST, 'num_personas', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
 
-// Volver a main con el panel de la sala abierto
+// Conservamos la sala al volver para dejar abierto el mismo panel
 $volver = '../views/main.php?' . ($idSala ? 'id_sala=' . $idSala . '&' : '');
 
 if (!$idModulo) {
@@ -34,8 +34,7 @@ if ($capacidad === false || $personas > $capacidad) {
 try {
     $conn->beginTransaction();
 
-    // Solo cambia el estado si el módulo sigue libre. Comprobar y ocupar en la misma
-    // sentencia evita que dos gamemasters ocupen el mismo módulo a la vez.
+    // Comprobar y cambiar el estado en la misma sentencia evita dobles ocupaciones
     $sql = "UPDATE modulos SET estado = 'Ocupado' WHERE id_modulo = :id AND estado = 'Disponible'";
     $stmt = $conn->prepare($sql);
     $stmt->execute([':id' => $idModulo]);

@@ -6,7 +6,7 @@ require_once __DIR__ . '/../sql/conexion.php';
 $idModulo = filter_input(INPUT_POST, 'id_modulo', FILTER_VALIDATE_INT);
 $idSala   = filter_input(INPUT_POST, 'id_sala', FILTER_VALIDATE_INT);
 
-// Volver a main con el panel de la sala abierto
+// Conservamos la sala al volver para dejar abierto el mismo panel.
 $volver = '../views/main.php?' . ($idSala ? 'id_sala=' . $idSala . '&' : '');
 
 if (!$idModulo) {

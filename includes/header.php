@@ -2,15 +2,15 @@
 require_once __DIR__ . '/session.php';
 require_once __DIR__ . '/../sql/conexion.php';
 
-// Contadores de la cabecera: cuántas salas y plazas hay en total y cuántas libres
-// salas:  salas distintas que tienen módulos (DISTINCT porque una sala tiene varios módulos)
+// Contadores de la cabecera, cuántas salas y plazas hay en total y cuántas libres
+// salas distintas que tienen módulos DISTINCT porque una sala tiene varios módulos
 // plazas: suma de la capacidad de los módulos
 $sql = "SELECT COUNT(DISTINCT id_sala) AS salas, SUM(capacidad) AS plazas FROM modulos";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $total = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Lo mismo, pero solo con los módulos disponibles
+// Repetimos el cálculo con los módulos disponibles para mostrar las plazas libres.
 $sql = "SELECT COUNT(DISTINCT id_sala) AS salas, SUM(capacidad) AS plazas FROM modulos WHERE estado = 'Disponible'";
 $stmt = $conn->prepare($sql);
 $stmt->execute();

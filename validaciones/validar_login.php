@@ -1,7 +1,7 @@
 <?php
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
-    // La sesión permitirá recordar quién ha iniciado sesión.
+    // La sesión permitirá recordar quién ha iniciado sesión
     session_start();
 }
 
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $usuario = trim($_POST["usuario"] ?? "");
     $password = $_POST["password"] ?? "";
 
-    // En el inicio de sesión solo comprobamos que se hayan enviado ambos campos.
+    // En el inicio de sesión solo comprobamos que se hayan enviado ambos campos
     if ($usuario === "" || $password === "") {
         $error = "El usuario y la contraseña son obligatorios.";
     } else {
@@ -31,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $consulta->execute(["usuario" => $usuario]);
             $gamemaster = $consulta->fetch(PDO::FETCH_ASSOC);
 
+            // Si la contraseña aún no está cifrada, se actualiza al verificarla
             $passwordStored = $gamemaster["password"] ?? "";
             $passwordIsHashed = password_get_info($passwordStored)["algo"] !== null;
             $passwordIsValid = $gamemaster && (

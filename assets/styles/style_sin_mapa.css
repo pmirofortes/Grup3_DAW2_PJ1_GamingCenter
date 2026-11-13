@@ -1,12 +1,13 @@
-/* Igual que style.css, pero las salas salen en lista en vez de en el mapa.
-   Sirve para cualquier número de salas: salen todas las de la base de datos, aunque no tengan zona en el mapa.
-   Para usarlo, en views/main.php se cambia style.css por style_sin_mapa.css en el <link>. */
+/* Parte del estilo común, pero muestra las salas en una lista, no sobre el mapa.
+   Así también aparecen las que no tienen una zona asignada. */
 @import url('style.css');
 
-/* El hueco del mapa pasa a ser una lista con scroll */
+/* El espacio del mapa se convierte en una lista con scroll. */
 .mapa-hueco {
     overflow-y: auto;
 }
+
+/* Quitamos las proporciones y el fondo del mapa para que quepan todas las filas. */
 .mapa {
     display: flex;
     flex-direction: column;
@@ -18,7 +19,7 @@
     background: none;
 }
 
-/* Cada sala es una fila: nombre y tipo a la izquierda, módulos a la derecha */
+/* El nombre queda a la izquierda y los módulos se alinean al otro lado. */
 .sala {
     display: flex;
     align-items: center;
@@ -40,7 +41,7 @@
 .sala-nombre b     { display: block; font: 1.3rem 'Anton', sans-serif; text-transform: uppercase; }
 .sala-nombre small { color: #8b82a3; }
 
-/* El pin deja de flotar sobre el mapa y se queda al final de la fila */
+/* En la lista, el pin va al final de la fila en vez de flotar sobre el mapa. */
 .pin {
     position: static;
     transform: none;
@@ -52,7 +53,7 @@
     font-size: 1rem;
 }
 
-/* Móvil: en style.css el mapa ocupa todo el alto y los puntos se hacen pequeños; en la lista no */
+/* En móvil, la lista conserva su altura natural y los puntos siguen siendo legibles. */
 @media (max-width: 767px) {
     .mapa-hueco { overflow-x: visible; }
     .mapa { height: auto; }

@@ -9,13 +9,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="../assets/styles/style.css?v=7">
+    <!-- Estilo de la página sin mapa -->
     <!-- <link rel="stylesheet" href="../assets/styles/style_sin_mapa.css?v=7"> -->
 </head>
 <body class="pagina-salas">
     <?php include '../includes/header.php'; ?>
 
     <main class="salas">
-        <!-- La búsqueda filtra al escribir (main.js). El tipo recarga la página -->
+        <!-- La búsqueda filtra al escribir con el main.js. El tipo recarga la página -->
         <form id="filtro" class="filtros">
             <input type="search" id="buscador" class="buscador" name="q" placeholder="Buscar sala o módulo (7.1)" value="<?= htmlspecialchars($busqueda) ?>" autocomplete="off">
             <label class="pastilla"><input type="radio" name="tipo" value="" <?= $tipo === '' ? 'checked' : '' ?>> Todas</label>
@@ -24,7 +25,7 @@
             <?php } ?>
         </form>
 
-        <!-- Mapa: cada sala es un enlace con su zona (sacada de zonas_mapa.svg) y su pin -->
+        <!-- Las clases reflejan los filtros y la sala seleccionada, calculados en cargar_salas.php -->
         <div class="mapa-hueco">
             <div class="mapa">
                 <?php foreach ($salas as $id => $sala) { ?>

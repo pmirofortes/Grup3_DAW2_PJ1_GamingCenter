@@ -1,8 +1,7 @@
 <?php
 
-// Por nombre de sala:
-// zona: id del polígono en assets/images/zonas_mapa.svg
-// pin:  dónde va el pin, en píxeles de mapa.png (1499 x 1049): [x, y]
+// Relaciona cada sala con su zona y la posición del pin sobre el mapa (1499 x 1049).
+// La zona corresponde al id del polígono en zonas_mapa.svg, el pin usa [x, y].
 return [
     'Downtown'                      => ['zona' => 'downtown', 'pin' => [561, 108]],
     'Little Haiti'                  => ['zona' => 'little-haiti', 'pin' => [462, 402]],

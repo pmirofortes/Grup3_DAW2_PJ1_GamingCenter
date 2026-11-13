@@ -1,3 +1,4 @@
+-- Crea la base de datos del centro y carga salas, módulos y ocupaciones de ejemplo.
 DROP DATABASE IF EXISTS db_pj5_gamingCenter;
 CREATE DATABASE db_pj5_gamingCenter;
 USE db_pj5_gamingCenter;

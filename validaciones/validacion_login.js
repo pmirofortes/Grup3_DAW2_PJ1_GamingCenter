@@ -1,3 +1,4 @@
+// Estas comprobaciones muestran errores al momento; el servidor vuelve a validar al recibir el formulario
 function validarUsuario() {
     // Quitamos espacios al principio y al final para que no cuenten como parte del usuario
     usuario = document.getElementById("usuario").value.trim();

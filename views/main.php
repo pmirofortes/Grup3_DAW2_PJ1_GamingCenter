@@ -8,8 +8,8 @@
     <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="../assets/styles/style.css?v=<?= filemtime(__DIR__ . '/../assets/styles/style.css') ?>">
-    <link rel="stylesheet" href="../assets/styles/style_sin_mapa.css?v=<?= filemtime(__DIR__ . '/../assets/styles/style.css') ?>">
+    <!-- <link rel="stylesheet" href="../assets/styles/style.css?v=7"> -->
+    <link rel="stylesheet" href="../assets/styles/style_sin_mapa.css?v=7">
 </head>
 <body class="pagina-salas">
     <?php include '../includes/header.php'; ?>

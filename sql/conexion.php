@@ -1,9 +1,9 @@
 <?php
 
-$servername = "localhost"; // Host local de WAMP/XAMPP
-$dbusername = "root"; // Nombre de usuario
-$dbpassword = ""; // Contraseña
-$dbname = "db_pj5_gamingCenter"; // Nombre de la base de datos
+$servername = 'localhost';
+$dbname = 'db_pj5_gamingCenter';
+$dbusername = 'root';
+$dbpassword = '';
 
 try {
     // Se crea una instancia de PDO para establecer la conexión

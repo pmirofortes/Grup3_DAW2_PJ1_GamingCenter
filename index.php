@@ -78,7 +78,12 @@
             </div>
 
             <!-- Título encima -->
-            <h1 class="titulo_principal">Grand Theft Team: Code City</h1>
+            <h1 class="titulo_principal">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="assets/images/logo_movil.svg">
+                    <img src="assets/images/logo.svg" alt="Grand Theft Team: Code City">
+                </picture>
+            </h1>
         </div>
 
         <!-- DERECHA: congtiene lo del formulario -->

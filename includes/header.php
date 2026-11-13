@@ -2,14 +2,19 @@
 require_once __DIR__ . '/session.php';
 require_once __DIR__ . '/../sql/conexion.php';
 
-// Salas libres: salas con al menos un módulo disponible
-// Plazas libres: capacidad de los módulos disponibles
-$sql = "SELECT COUNT(DISTINCT s.id_sala) AS salas_total, COUNT(DISTINCT CASE WHEN m.estado = 'Disponible' THEN s.id_sala END) AS salas_libres, COALESCE(SUM(m.capacidad), 0) AS plazas_total, COALESCE(SUM(CASE WHEN m.estado = 'Disponible' THEN m.capacidad END), 0) AS plazas_libres
-        FROM salas s
-        LEFT JOIN modulos m ON m.id_sala = s.id_sala";
+// Contadores de la cabecera: cuántas salas y plazas hay en total y cuántas libres
+// salas:  salas distintas que tienen módulos (DISTINCT porque una sala tiene varios módulos)
+// plazas: suma de la capacidad de los módulos
+$sql = "SELECT COUNT(DISTINCT id_sala) AS salas, SUM(capacidad) AS plazas FROM modulos";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
-$resumen = $stmt->fetch(PDO::FETCH_ASSOC);
+$total = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Lo mismo, pero solo con los módulos disponibles
+$sql = "SELECT COUNT(DISTINCT id_sala) AS salas, SUM(capacidad) AS plazas FROM modulos WHERE estado = 'Disponible'";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$libres = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // Gamemaster conectado
 $sql = "SELECT nom_real, cognom_real FROM gamemasters WHERE id_gamemaster = :id";
@@ -23,17 +28,21 @@ $nombre = $gamemaster['nom_real'] . ' ' . $gamemaster['cognom_real'];
 
 <header class="header">
     <a href="main.php" class="logo">
-        <img src="../assets/images/logo.png" alt="Grand Theft Team: Code City">
+        <picture>
+            <source media="(max-width: 767px)" srcset="../assets/images/logo_movil.svg">
+            <img src="../assets/images/logo.svg" alt="Grand Theft Team: Code City">
+        </picture>
     </a>
 
     <div class="contadores">
         <div class="contador">
             <small>Salas<span class="libres"> libres</span></small>
-            <b><?= $resumen['salas_libres'] ?><span>/<?= $resumen['salas_total'] ?></span></b>
+            <b><?= $libres['salas'] ?><span>/<?= $total['salas'] ?></span></b>
         </div>
         <div class="contador">
             <small>Plazas<span class="libres"> libres</span></small>
-            <b><?= $resumen['plazas_libres'] ?><span>/<?= $resumen['plazas_total'] ?></span></b>
+            <!-- (int): si no queda ningún módulo libre, SUM no tiene nada que sumar y hay que mostrar 0 -->
+            <b><?= (int) $libres['plazas'] ?><span>/<?= $total['plazas'] ?></span></b>
         </div>
     </div>
 

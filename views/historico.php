@@ -183,49 +183,50 @@ function formatoFechaGrupo($fecha)
             <?php if (empty($ocupacionesPorFecha)) { ?>
                 <p class="historial-vacio mb-0">No hay reservas que coincidan con los filtros seleccionados.</p>
             <?php } else { ?>
-                <div class="table-responsive">
-                    <table class="table historial-tabla">
-                        <thead>
-                            <tr>
-                                <th scope="col">Reserva</th>
-                                <th scope="col">Horario</th>
-                                <th scope="col">Sala</th>
-                                <th scope="col">Modalidad</th>
-                                <th scope="col">Responsable</th>
-                                <th scope="col">Estado</th>
-                            </tr>
-                        </thead>
-                        <?php foreach ($ocupacionesPorFecha as $fecha => $reservas) { ?>
-                            <tbody>
-                                <tr class="historial-fecha">
-                                    <th colspan="6" scope="colgroup"><?= htmlspecialchars(formatoFechaGrupo($fecha), ENT_QUOTES, 'UTF-8') ?></th>
-                                </tr>
+                <div class="historial-listado">
+                    <?php foreach ($ocupacionesPorFecha as $fecha => $reservas) { ?>
+                        <section class="historial-grupo" aria-label="Reservas del <?= htmlspecialchars(formatoFechaGrupo($fecha), ENT_QUOTES, 'UTF-8') ?>">
+                            <h2 class="historial-fecha"><?= htmlspecialchars(formatoFechaGrupo($fecha), ENT_QUOTES, 'UTF-8') ?></h2>
+                            <div class="historial-reservas">
                                 <?php foreach ($reservas as $reserva) {
                                     $enCurso = $reserva['fecha_fin'] === null;
                                     $horaInicio = date('H:i', strtotime($reserva['fecha_inicio']));
                                     $horaFin = $enCurso ? null : date('H:i', strtotime($reserva['fecha_fin']));
                                     $nombreResponsable = $reserva['nom_real'] . ' ' . $reserva['cognom_real'];
+                                    $idReserva = '#R-' . str_pad((string) $reserva['id_ocupacion'], 3, '0', STR_PAD_LEFT);
                                 ?>
-                                    <tr>
-                                        <td><span class="historial-id">#R-<?= str_pad((string) $reserva['id_ocupacion'], 3, '0', STR_PAD_LEFT) ?></span></td>
-                                        <td>
+                                    <article class="historial-reserva" aria-label="Reserva <?= htmlspecialchars($idReserva, ENT_QUOTES, 'UTF-8') ?>">
+                                        <div class="historial-reserva-id">
+                                            <span class="visually-hidden">Reserva: </span>
+                                            <span class="historial-id"><?= htmlspecialchars($idReserva, ENT_QUOTES, 'UTF-8') ?></span>
+                                        </div>
+                                        <div class="historial-reserva-horario">
+                                            <span class="visually-hidden">Horario: </span>
                                             <span class="historial-horario"><?= htmlspecialchars($horaInicio . ($horaFin !== null ? ' – ' . $horaFin : ' – En curso'), ENT_QUOTES, 'UTF-8') ?></span>
                                             <span class="historial-secundario"><?= htmlspecialchars(formatoDuracion($reserva['duracion_minutos']), ENT_QUOTES, 'UTF-8') ?></span>
-                                        </td>
-                                        <td class="historial-sala"><?= htmlspecialchars($reserva['sala'], ENT_QUOTES, 'UTF-8') ?></td>
-                                        <td>
+                                        </div>
+                                        <div class="historial-reserva-sala">
+                                            <span class="visually-hidden">Sala: </span>
+                                            <span class="historial-sala"><?= htmlspecialchars($reserva['sala'], ENT_QUOTES, 'UTF-8') ?></span>
+                                        </div>
+                                        <div class="historial-reserva-modulo">
+                                            <span class="visually-hidden">Modalidad: </span>
                                             <?= htmlspecialchars($reserva['tipo_modulo'], ENT_QUOTES, 'UTF-8') ?>
-                                            <span class="historial-secundario">
-                                                <?= (int) $reserva['num_personas'] ?> de <?= (int) $reserva['capacidad'] ?> plazas
-                                            </span>
-                                        </td>
-                                        <td><?= htmlspecialchars($nombreResponsable, ENT_QUOTES, 'UTF-8') ?></td>
-                                        <td><span class="historial-estado <?= $enCurso ? 'encurso' : '' ?>"><?= $enCurso ? 'En curso' : 'Completada' ?></span></td>
-                                    </tr>
+                                            <span class="historial-secundario"><?= (int) $reserva['num_personas'] ?> de <?= (int) $reserva['capacidad'] ?> plazas</span>
+                                        </div>
+                                        <div class="historial-reserva-responsable">
+                                            <span class="visually-hidden">Responsable: </span>
+                                            <?= htmlspecialchars($nombreResponsable, ENT_QUOTES, 'UTF-8') ?>
+                                        </div>
+                                        <div class="historial-reserva-estado">
+                                            <span class="visually-hidden">Estado: </span>
+                                            <span class="historial-estado <?= $enCurso ? 'encurso' : '' ?>"><?= $enCurso ? 'En curso' : 'Completada' ?></span>
+                                        </div>
+                                    </article>
                                 <?php } ?>
-                            </tbody>
-                        <?php } ?>
-                    </table>
+                            </div>
+                        </section>
+                    <?php } ?>
                 </div>
             <?php } ?>
         </section>

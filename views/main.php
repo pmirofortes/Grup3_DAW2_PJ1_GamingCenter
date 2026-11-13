@@ -7,7 +7,9 @@
     <title>Salas</title>
     <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="../assets/styles/style.css?v=<?= filemtime(__DIR__ . '/../assets/styles/style.css') ?>">
+    <link rel="stylesheet" href="../assets/styles/style_sin_mapa.css?v=<?= filemtime(__DIR__ . '/../assets/styles/style.css') ?>">
 </head>
 <body class="pagina-salas">
     <?php include '../includes/header.php'; ?>
@@ -31,6 +33,11 @@
                        data-nombre="<?= htmlspecialchars($sala['nombre']) ?>"
                        data-tipo="<?= $sala['tipo'] ?>"
                        data-modulos="<?= implode(' ', array_column($sala['modulos'], 'modulo')) ?>">
+                        <!-- Solo se ve con style_sin_mapa.css (en el mapa el nombre ya está dibujado) -->
+                        <span class="sala-nombre">
+                            <b><?= htmlspecialchars($sala['nombre']) ?></b>
+                            <small><?= $sala['tipo'] ?></small>
+                        </span>
                         <?php if ($sala['zona']) { ?>
                             <svg viewBox="0 0 1499 1049"><use href="../assets/images/zonas_mapa.svg#<?= $sala['zona'] ?>"></use></svg>
                         <?php } ?>

@@ -228,6 +228,7 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
 .sala.activa use   { stroke: #2a1660; }
 .sala.apagada use  { fill: rgba(27, 10, 60, 0.55); }
 .sala.apagada .pin  { opacity: 0.5; }
+.sala-nombre { display: none; } /* solo se usa en style_sin_mapa.css */
 
 .pin {
     position: absolute;

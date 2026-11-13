@@ -50,11 +50,13 @@ if ($busqueda !== '') {
     $condiciones[] = "(CONCAT('#R-', LPAD(o.id_ocupacion, 3, '0')) LIKE :buscar_id
                        OR s.nombre LIKE :buscar_sala
                        OR m.nombre LIKE :buscar_modulo
+                       OR m.tipo LIKE :buscar_tipo
                        OR CONCAT(g.nom_real, ' ', g.cognom_real) LIKE :buscar_responsable)";
     $terminoBusqueda = '%' . $busqueda . '%';
     $parametros[':buscar_id'] = $terminoBusqueda;
     $parametros[':buscar_sala'] = $terminoBusqueda;
     $parametros[':buscar_modulo'] = $terminoBusqueda;
+    $parametros[':buscar_tipo'] = $terminoBusqueda;
     $parametros[':buscar_responsable'] = $terminoBusqueda;
 }
 if ($periodo === 'hoy') {
@@ -112,7 +114,8 @@ function formatoFechaGrupo($fecha)
     ];
     $timestamp = strtotime($fecha);
 
-    return (int) date('j', $timestamp) . ' ' . $meses[(int) date('n', $timestamp)] . ' ' . date('Y', $timestamp);
+    $dia = str_pad((string) date('j', $timestamp), 2, '0', STR_PAD_LEFT);
+    return $dia . '. ' . $meses[(int) date('n', $timestamp)] . ' ' . date('Y', $timestamp);
 }
 
 $clasesSalas = [
@@ -132,7 +135,7 @@ $clasesSalas = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historico</title>
+    <title>Mi historial | Gaming Center</title>
     <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/styles/style.css?v=<?= filemtime(__DIR__ . '/../assets/styles/style.css') ?>">
@@ -215,7 +218,7 @@ $clasesSalas = [
                                         </div>
                                         <div class="historial-reserva-horario">
                                             <span class="visually-hidden">Horario: </span>
-                                            <span class="historial-horario"><?= htmlspecialchars($horaInicio . ($horaFin !== null ? ' – ' . $horaFin : ' – En curso'), ENT_QUOTES, 'UTF-8') ?></span>
+                                            <span class="historial-horario"><?= htmlspecialchars($horaInicio . ($horaFin !== null ? ' – ' . $horaFin : ''), ENT_QUOTES, 'UTF-8') ?></span>
                                             <span class="historial-secundario"><?= htmlspecialchars(formatoDuracion($reserva['duracion_minutos']), ENT_QUOTES, 'UTF-8') ?></span>
                                         </div>
                                         <div class="historial-reserva-sala">

@@ -1,10 +1,9 @@
 <?php
 
-$servername = 'localhost';
+$servername = 'db';
 $dbname = 'db_pj5_gamingCenter';
-$dbusername = 'root';
-$dbpassword = '';
-
+$dbusername = 'nahuel';
+$dbpassword = '95f97h0c';
 try {
     // Se crea una instancia de PDO para establecer la conexión
     $conn = new PDO(

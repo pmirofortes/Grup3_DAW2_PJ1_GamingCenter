@@ -1,91 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/session.php';
-require_once __DIR__ . '/../sql/conexion.php';
-
-$idSala = filter_input(INPUT_GET, 'id_sala', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-$idModulo = filter_input(INPUT_GET, 'id_modulo', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-$idSala = ($idSala === false || $idSala === null) ? null : $idSala;
-$idModulo = ($idModulo === false || $idModulo === null) ? null : $idModulo;
-
-$busqueda = $_GET['buscar'] ?? '';
-if (!is_string($busqueda)) {
-    $busqueda = '';
-}
-$busqueda = trim($busqueda);
-
-$periodos = ['todas', 'hoy', 'semana', 'mes'];
-$periodo = $_GET['periodo'] ?? 'todas';
-if (!is_string($periodo) || !in_array($periodo, $periodos, true)) {
-    $periodo = 'todas';
-}
-
-$estados = ['todos', 'completadas', 'encurso'];
-$estado = $_GET['estado'] ?? 'todos';
-if (!is_string($estado) || !in_array($estado, $estados, true)) {
-    $estado = 'todos';
-}
-
-$stmt = $conn->query('SELECT id_sala, nombre FROM salas ORDER BY nombre');
-$salas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$stmt = $conn->query(
-    'SELECT m.id_modulo, m.nombre AS modulo, s.nombre AS sala
-     FROM modulos m
-     INNER JOIN salas s ON s.id_sala = m.id_sala
-     ORDER BY s.nombre, m.nombre'
-);
-$modulos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$condiciones = [];
-$parametros = [];
-if ($idSala !== null) {
-    $condiciones[] = 's.id_sala = :id_sala';
-    $parametros[':id_sala'] = $idSala;
-}
-if ($idModulo !== null) {
-    $condiciones[] = 'm.id_modulo = :id_modulo';
-    $parametros[':id_modulo'] = $idModulo;
-}
-if ($busqueda !== '') {
-    $condiciones[] = "(CONCAT('#R-', LPAD(o.id_ocupacion, 3, '0')) LIKE :buscar_id
-                       OR s.nombre LIKE :buscar_sala
-                       OR m.nombre LIKE :buscar_modulo
-                       OR m.tipo LIKE :buscar_tipo
-                       OR CONCAT(g.nom_real, ' ', g.cognom_real) LIKE :buscar_responsable)";
-    $terminoBusqueda = '%' . $busqueda . '%';
-    $parametros[':buscar_id'] = $terminoBusqueda;
-    $parametros[':buscar_sala'] = $terminoBusqueda;
-    $parametros[':buscar_modulo'] = $terminoBusqueda;
-    $parametros[':buscar_tipo'] = $terminoBusqueda;
-    $parametros[':buscar_responsable'] = $terminoBusqueda;
-}
-if ($periodo === 'hoy') {
-    $condiciones[] = 'o.fecha_inicio >= CURRENT_DATE';
-} elseif ($periodo === 'semana') {
-    $condiciones[] = 'o.fecha_inicio >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)';
-} elseif ($periodo === 'mes') {
-    $condiciones[] = 'o.fecha_inicio >= DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH)';
-}
-if ($estado === 'completadas') {
-    $condiciones[] = 'o.fecha_fin IS NOT NULL';
-} elseif ($estado === 'encurso') {
-    $condiciones[] = 'o.fecha_fin IS NULL';
-}
-$filtroSql = $condiciones ? 'WHERE ' . implode(' AND ', $condiciones) : '';
-
-$sql = "SELECT o.id_ocupacion, o.fecha_inicio, o.fecha_fin, o.num_personas,
-               m.nombre AS modulo, m.tipo AS tipo_modulo, m.capacidad,
-               s.nombre AS sala, g.nom_real, g.cognom_real,
-               TIMESTAMPDIFF(MINUTE, o.fecha_inicio, COALESCE(o.fecha_fin, NOW())) AS duracion_minutos
-        FROM ocupaciones o
-        INNER JOIN modulos m ON m.id_modulo = o.id_modulo
-        INNER JOIN salas s ON s.id_sala = m.id_sala
-        INNER JOIN gamemasters g ON g.id_gamemaster = o.id_gamemaster
-        $filtroSql
-        ORDER BY o.fecha_inicio DESC, o.id_ocupacion DESC";
-$stmt = $conn->prepare($sql);
-$stmt->execute($parametros);
-$ocupaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+require_once __DIR__ . '/../backend/filtros.php';
 
 $ocupacionesPorFecha = [];
 foreach ($ocupaciones as $ocupacion) {
@@ -157,10 +72,9 @@ $clasesSalas = [
                 <div>
                     <label class="visually-hidden" for="periodo">Filtrar por fecha</label>
                     <select class="form-select historial-filtro" id="periodo" name="periodo" onchange="this.form.submit()">
-                        <option value="todas" <?= $periodo === 'todas' ? 'selected' : '' ?>>Todas las fechas</option>
-                        <option value="hoy" <?= $periodo === 'hoy' ? 'selected' : '' ?>>Hoy</option>
-                        <option value="semana" <?= $periodo === 'semana' ? 'selected' : '' ?>>Últimos 7 días</option>
-                        <option value="mes" <?= $periodo === 'mes' ? 'selected' : '' ?>>Último mes</option>
+                        <?php foreach ($periodos as $valor => $etiqueta) { ?>
+                            <option value="<?= $valor ?>" <?= $periodo === $valor ? 'selected' : '' ?>><?= $etiqueta ?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div>
@@ -188,9 +102,9 @@ $clasesSalas = [
                 <div>
                     <label class="visually-hidden" for="estado">Filtrar por estado</label>
                     <select class="form-select historial-filtro" id="estado" name="estado" onchange="this.form.submit()">
-                        <option value="todos" <?= $estado === 'todos' ? 'selected' : '' ?>>Todos los estados</option>
-                        <option value="completadas" <?= $estado === 'completadas' ? 'selected' : '' ?>>Completadas</option>
-                        <option value="encurso" <?= $estado === 'encurso' ? 'selected' : '' ?>>En curso</option>
+                        <?php foreach ($estados as $valor => $etiqueta) { ?>
+                            <option value="<?= $valor ?>" <?= $estado === $valor ? 'selected' : '' ?>><?= $etiqueta ?></option>
+                        <?php } ?>
                     </select>
                 </div>
             </form>
@@ -200,8 +114,9 @@ $clasesSalas = [
             <?php } else { ?>
                 <div class="historial-listado">
                     <?php foreach ($ocupacionesPorFecha as $fecha => $reservas) { ?>
-                        <section class="historial-grupo" aria-label="Reservas del <?= htmlspecialchars(formatoFechaGrupo($fecha), ENT_QUOTES, 'UTF-8') ?>">
-                            <h2 class="historial-fecha"><?= htmlspecialchars(formatoFechaGrupo($fecha), ENT_QUOTES, 'UTF-8') ?></h2>
+                        <?php $fechaFormateada = formatoFechaGrupo($fecha); ?>
+                        <section class="historial-grupo" aria-label="Reservas del <?= htmlspecialchars($fechaFormateada, ENT_QUOTES, 'UTF-8') ?>">
+                            <h2 class="historial-fecha"><?= htmlspecialchars($fechaFormateada, ENT_QUOTES, 'UTF-8') ?></h2>
                             <div class="historial-reservas">
                                 <?php foreach ($reservas as $reserva) {
                                     $enCurso = $reserva['fecha_fin'] === null;

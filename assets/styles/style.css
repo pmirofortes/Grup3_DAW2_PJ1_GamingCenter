@@ -426,13 +426,17 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
 }
 
 .historial-id {
-    color: #c9308f;
-    font: 0.72rem 'Space Mono', monospace;
+    color: #24152f;
+    font: 700 0.82rem 'Space Mono', monospace;
 }
 
 .historial-horario {
     white-space: nowrap;
-    font: 0.76rem 'Space Mono', monospace;
+    font: 500 0.82rem 'Outfit', sans-serif;
+}
+
+.historial-modulo-tipo {
+    font-weight: 600;
 }
 
 .historial-secundario {
@@ -490,17 +494,19 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
 .historial-estado {
     display: inline-block;
     min-width: 92px;
-    padding: 4px 8px;
-    border-radius: 6px;
-    background: #e6f4eb;
-    color: #35156a;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: #d9eedc;
+    color: #46734b;
     text-align: center;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
+    font-weight: 600;
     text-transform: uppercase;
 }
 
 .historial-estado.encurso {
-    background: #f3e5fb;
+    background: #ead9f0;
+    color: #694a78;
 }
 
 .historial-vacio {

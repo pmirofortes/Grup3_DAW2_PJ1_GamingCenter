@@ -224,7 +224,7 @@ $clasesSalas = [
                                         </div>
                                         <div class="historial-reserva-modulo">
                                             <span class="visually-hidden">Modalidad: </span>
-                                            <?= htmlspecialchars($reserva['tipo_modulo'], ENT_QUOTES, 'UTF-8') ?>
+                                            <span class="historial-modulo-tipo"><?= htmlspecialchars($reserva['tipo_modulo'], ENT_QUOTES, 'UTF-8') ?></span>
                                             <span class="historial-secundario"><?= (int) $reserva['num_personas'] ?> de <?= (int) $reserva['capacidad'] ?> plazas</span>
                                         </div>
                                         <div class="historial-reserva-responsable">

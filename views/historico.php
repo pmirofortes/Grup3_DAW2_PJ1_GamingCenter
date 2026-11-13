@@ -7,6 +7,12 @@ $idModulo = filter_input(INPUT_GET, 'id_modulo', FILTER_VALIDATE_INT, ['options'
 $idSala = ($idSala === false || $idSala === null) ? null : $idSala;
 $idModulo = ($idModulo === false || $idModulo === null) ? null : $idModulo;
 
+$busqueda = $_GET['buscar'] ?? '';
+if (!is_string($busqueda)) {
+    $busqueda = '';
+}
+$busqueda = trim($busqueda);
+
 $periodos = ['todas', 'hoy', 'semana', 'mes'];
 $periodo = $_GET['periodo'] ?? 'todas';
 if (!is_string($periodo) || !in_array($periodo, $periodos, true)) {
@@ -39,6 +45,19 @@ if ($idSala !== null) {
 if ($idModulo !== null) {
     $condiciones[] = 'm.id_modulo = :id_modulo';
     $parametros[':id_modulo'] = $idModulo;
+}
+if ($busqueda !== '') {
+    $condiciones[] = "(CONCAT('#R-', LPAD(o.id_ocupacion, 3, '0')) LIKE :buscar_id
+                       OR s.nombre LIKE :buscar_sala
+                       OR m.nombre LIKE :buscar_modulo
+                       OR m.tipo LIKE :buscar_tipo
+                       OR CONCAT(g.nom_real, ' ', g.cognom_real) LIKE :buscar_responsable)";
+    $terminoBusqueda = '%' . $busqueda . '%';
+    $parametros[':buscar_id'] = $terminoBusqueda;
+    $parametros[':buscar_sala'] = $terminoBusqueda;
+    $parametros[':buscar_modulo'] = $terminoBusqueda;
+    $parametros[':buscar_tipo'] = $terminoBusqueda;
+    $parametros[':buscar_responsable'] = $terminoBusqueda;
 }
 if ($periodo === 'hoy') {
     $condiciones[] = 'o.fecha_inicio >= CURRENT_DATE';
@@ -95,15 +114,28 @@ function formatoFechaGrupo($fecha)
     ];
     $timestamp = strtotime($fecha);
 
-    return (int) date('j', $timestamp) . ' ' . $meses[(int) date('n', $timestamp)] . ' ' . date('Y', $timestamp);
+    $dia = str_pad((string) date('j', $timestamp), 2, '0', STR_PAD_LEFT);
+    return $dia . '. ' . $meses[(int) date('n', $timestamp)] . ' ' . date('Y', $timestamp);
 }
+
+$clasesSalas = [
+    'Downtown' => 'downtown',
+    'Little Haiti' => 'little-haiti',
+    'Little Havana' => 'little-havana',
+    'Escobar International Airport' => 'escobar-airport',
+    'Leaf Links' => 'leaf-links',
+    'Starfish Island' => 'starfish-island',
+    'Ocean Beach' => 'ocean-beach',
+    'Vice Point' => 'vice-point',
+    'Prawn Island' => 'prawn-island',
+];
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historico</title>
+    <title>Mi historial | Gaming Center</title>
     <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/styles/style.css?v=<?= filemtime(__DIR__ . '/../assets/styles/style.css') ?>">
@@ -117,9 +149,10 @@ function formatoFechaGrupo($fecha)
 
         <section class="card historial-panel" aria-label="Historial de reservas">
             <form method="get" action="historico.php" class="historial-filtros">
-                <div class="historial-filtros-intro">
-                    <h2 class="historial-filtros-titulo">Tu actividad</h2>
-                    <p class="historial-filtros-ayuda">Filtra y revisa tus reservas</p>
+                <div>
+                    <label class="visually-hidden" for="buscar">Buscar reservas</label>
+                    <input class="form-control historial-filtro" type="search" id="buscar" name="buscar"
+                           placeholder="Buscar reserva..." value="<?= htmlspecialchars($busqueda, ENT_QUOTES, 'UTF-8') ?>">
                 </div>
                 <div>
                     <label class="visually-hidden" for="periodo">Filtrar por fecha</label>
@@ -165,49 +198,51 @@ function formatoFechaGrupo($fecha)
             <?php if (empty($ocupacionesPorFecha)) { ?>
                 <p class="historial-vacio mb-0">No hay reservas que coincidan con los filtros seleccionados.</p>
             <?php } else { ?>
-                <div class="table-responsive">
-                    <table class="table historial-tabla">
-                        <thead>
-                            <tr>
-                                <th scope="col">Reserva</th>
-                                <th scope="col">Horario</th>
-                                <th scope="col">Sala</th>
-                                <th scope="col">Modalidad</th>
-                                <th scope="col">Responsable</th>
-                                <th scope="col">Estado</th>
-                            </tr>
-                        </thead>
-                        <?php foreach ($ocupacionesPorFecha as $fecha => $reservas) { ?>
-                            <tbody>
-                                <tr class="historial-fecha">
-                                    <th colspan="6" scope="colgroup"><?= htmlspecialchars(formatoFechaGrupo($fecha), ENT_QUOTES, 'UTF-8') ?></th>
-                                </tr>
+                <div class="historial-listado">
+                    <?php foreach ($ocupacionesPorFecha as $fecha => $reservas) { ?>
+                        <section class="historial-grupo" aria-label="Reservas del <?= htmlspecialchars(formatoFechaGrupo($fecha), ENT_QUOTES, 'UTF-8') ?>">
+                            <h2 class="historial-fecha"><?= htmlspecialchars(formatoFechaGrupo($fecha), ENT_QUOTES, 'UTF-8') ?></h2>
+                            <div class="historial-reservas">
                                 <?php foreach ($reservas as $reserva) {
                                     $enCurso = $reserva['fecha_fin'] === null;
                                     $horaInicio = date('H:i', strtotime($reserva['fecha_inicio']));
                                     $horaFin = $enCurso ? null : date('H:i', strtotime($reserva['fecha_fin']));
                                     $nombreResponsable = $reserva['nom_real'] . ' ' . $reserva['cognom_real'];
+                                    $idReserva = '#R-' . str_pad((string) $reserva['id_ocupacion'], 3, '0', STR_PAD_LEFT);
+                                    $claseSala = $clasesSalas[$reserva['sala']] ?? 'otra';
                                 ?>
-                                    <tr>
-                                        <td><span class="historial-id">#R-<?= str_pad((string) $reserva['id_ocupacion'], 3, '0', STR_PAD_LEFT) ?></span></td>
-                                        <td>
-                                            <span class="historial-horario"><?= htmlspecialchars($horaInicio . ($horaFin !== null ? ' – ' . $horaFin : ' – En curso'), ENT_QUOTES, 'UTF-8') ?></span>
+                                    <article class="historial-reserva" aria-label="Reserva <?= htmlspecialchars($idReserva, ENT_QUOTES, 'UTF-8') ?>">
+                                        <div class="historial-reserva-id">
+                                            <span class="visually-hidden">Reserva: </span>
+                                            <span class="historial-id"><?= htmlspecialchars($idReserva, ENT_QUOTES, 'UTF-8') ?></span>
+                                        </div>
+                                        <div class="historial-reserva-horario">
+                                            <span class="visually-hidden">Horario: </span>
+                                            <span class="historial-horario"><?= htmlspecialchars($horaInicio . ($horaFin !== null ? ' – ' . $horaFin : ''), ENT_QUOTES, 'UTF-8') ?></span>
                                             <span class="historial-secundario"><?= htmlspecialchars(formatoDuracion($reserva['duracion_minutos']), ENT_QUOTES, 'UTF-8') ?></span>
-                                        </td>
-                                        <td class="historial-sala"><?= htmlspecialchars($reserva['sala'], ENT_QUOTES, 'UTF-8') ?></td>
-                                        <td>
-                                            <?= htmlspecialchars($reserva['tipo_modulo'], ENT_QUOTES, 'UTF-8') ?>
-                                            <span class="historial-secundario">
-                                                <?= (int) $reserva['num_personas'] ?> de <?= (int) $reserva['capacidad'] ?> plazas
-                                            </span>
-                                        </td>
-                                        <td><?= htmlspecialchars($nombreResponsable, ENT_QUOTES, 'UTF-8') ?></td>
-                                        <td><span class="historial-estado <?= $enCurso ? 'encurso' : '' ?>"><?= $enCurso ? 'En curso' : 'Completada' ?></span></td>
-                                    </tr>
+                                        </div>
+                                        <div class="historial-reserva-sala">
+                                            <span class="visually-hidden">Sala: </span>
+                                            <span class="historial-sala <?= htmlspecialchars($claseSala, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($reserva['sala'], ENT_QUOTES, 'UTF-8') ?></span>
+                                        </div>
+                                        <div class="historial-reserva-modulo">
+                                            <span class="visually-hidden">Modalidad: </span>
+                                            <span class="historial-modulo-tipo"><?= htmlspecialchars($reserva['tipo_modulo'], ENT_QUOTES, 'UTF-8') ?></span>
+                                            <span class="historial-secundario"><?= (int) $reserva['num_personas'] ?> de <?= (int) $reserva['capacidad'] ?> plazas</span>
+                                        </div>
+                                        <div class="historial-reserva-responsable">
+                                            <span class="visually-hidden">Responsable: </span>
+                                            <?= htmlspecialchars($nombreResponsable, ENT_QUOTES, 'UTF-8') ?>
+                                        </div>
+                                        <div class="historial-reserva-estado">
+                                            <span class="visually-hidden">Estado: </span>
+                                            <span class="historial-estado <?= $enCurso ? 'encurso' : '' ?>"><?= $enCurso ? 'En curso' : 'Completada' ?></span>
+                                        </div>
+                                    </article>
                                 <?php } ?>
-                            </tbody>
-                        <?php } ?>
-                    </table>
+                            </div>
+                        </section>
+                    <?php } ?>
                 </div>
             <?php } ?>
         </section>

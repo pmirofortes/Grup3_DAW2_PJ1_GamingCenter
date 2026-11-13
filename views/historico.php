@@ -7,6 +7,12 @@ $idModulo = filter_input(INPUT_GET, 'id_modulo', FILTER_VALIDATE_INT, ['options'
 $idSala = ($idSala === false || $idSala === null) ? null : $idSala;
 $idModulo = ($idModulo === false || $idModulo === null) ? null : $idModulo;
 
+$busqueda = $_GET['buscar'] ?? '';
+if (!is_string($busqueda)) {
+    $busqueda = '';
+}
+$busqueda = trim($busqueda);
+
 $periodos = ['todas', 'hoy', 'semana', 'mes'];
 $periodo = $_GET['periodo'] ?? 'todas';
 if (!is_string($periodo) || !in_array($periodo, $periodos, true)) {
@@ -39,6 +45,17 @@ if ($idSala !== null) {
 if ($idModulo !== null) {
     $condiciones[] = 'm.id_modulo = :id_modulo';
     $parametros[':id_modulo'] = $idModulo;
+}
+if ($busqueda !== '') {
+    $condiciones[] = "(CONCAT('#R-', LPAD(o.id_ocupacion, 3, '0')) LIKE :buscar_id
+                       OR s.nombre LIKE :buscar_sala
+                       OR m.nombre LIKE :buscar_modulo
+                       OR CONCAT(g.nom_real, ' ', g.cognom_real) LIKE :buscar_responsable)";
+    $terminoBusqueda = '%' . $busqueda . '%';
+    $parametros[':buscar_id'] = $terminoBusqueda;
+    $parametros[':buscar_sala'] = $terminoBusqueda;
+    $parametros[':buscar_modulo'] = $terminoBusqueda;
+    $parametros[':buscar_responsable'] = $terminoBusqueda;
 }
 if ($periodo === 'hoy') {
     $condiciones[] = 'o.fecha_inicio >= CURRENT_DATE';
@@ -117,9 +134,10 @@ function formatoFechaGrupo($fecha)
 
         <section class="card historial-panel" aria-label="Historial de reservas">
             <form method="get" action="historico.php" class="historial-filtros">
-                <div class="historial-filtros-intro">
-                    <h2 class="historial-filtros-titulo">Tu actividad</h2>
-                    <p class="historial-filtros-ayuda">Filtra y revisa tus reservas</p>
+                <div>
+                    <label class="visually-hidden" for="buscar">Buscar reservas</label>
+                    <input class="form-control historial-filtro" type="search" id="buscar" name="buscar"
+                           placeholder="Buscar reserva..." value="<?= htmlspecialchars($busqueda, ENT_QUOTES, 'UTF-8') ?>">
                 </div>
                 <div>
                     <label class="visually-hidden" for="periodo">Filtrar por fecha</label>

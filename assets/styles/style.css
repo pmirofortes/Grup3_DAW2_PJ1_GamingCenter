@@ -368,30 +368,17 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
 
 .historial-filtros {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 10px;
-    align-items: end;
+    align-items: center;
     margin-bottom: 18px;
-}
-
-.historial-filtros-titulo {
-    margin: 0 0 2px;
-    font: 0.72rem 'Space Mono', monospace;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-.historial-filtros-ayuda {
-    margin: 0;
-    color: #6d5589;
-    font-size: 0.75rem;
 }
 
 .historial-filtro {
     min-height: 38px;
-    border: 0;
-    border-radius: 9px;
-    background-color: #fff3e8;
+    border: 1px solid #e6ddd6;
+    border-radius: 999px;
+    background-color: #fff;
     color: #35156a;
     font-size: 0.78rem;
 }
@@ -482,10 +469,6 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
 
     .historial-filtros {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .historial-filtros-intro {
-        grid-column: 1 / -1;
     }
 
     .historial-panel {

@@ -2,7 +2,7 @@
 
 body { margin: 0; font-family: 'Outfit', sans-serif; }
 
-/* ==================== LOGIN (index.php) ==================== */
+/* LOGIN (index.php)  */
 .pagina-login, .zona_izquierda { background-color: #3a1470; }
 
 .zona_izquierda { position: relative; display: flex; padding: 8px; }
@@ -81,7 +81,7 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
     .zona_derecha { position: relative; margin-top: -25px; border-radius: 25px 25px 0 0; }
 }
 
-/* ==================== HEADER (includes/header.php) ==================== */
+/* HEADER (includes/header.php) */
 .header {
     display: flex;
     align-items: center;
@@ -146,7 +146,7 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
     .libres, .usuario small { display: none; }
 }
 
-/* ==================== SALAS (views/main.php) ==================== */
+/* SALAS (views/main.php) */
 /* La página ocupa justo la pantalla: filtros arriba, mapa a la izquierda y panel a la derecha */
 .pagina-salas {
     height: 100dvh;
@@ -507,11 +507,10 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
     text-align: center;
 }
 
-/* ==================== RESPONSIVE MÓVIL ==================== */
+/* RESPONSIVE MÓVIL */
 @media (max-width: 768px) {
 
-    /* ---------- LOGIN (index.php) ----------
-       sin mosaico, una foto de fondo y el formulario sube por encima */
+    /* LOGIN (index.php) */
 
     .zona_izquierda > .row {
         display: none;
@@ -529,7 +528,7 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
     }
 
 
-    /* ---------- HEADER ----------
+    /*  HEADER 
        fila 1: logo + botones   fila 2: gamemaster   fila 3: contadores */
 
     .header {
@@ -622,7 +621,7 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
     }
 
 
-    /* ---------- main.php ---------- */
+    /* main.php  */
 
     /* La página baja con scroll en vez de quedar fija a la pantalla */
     .pagina-salas {
@@ -638,7 +637,7 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
         padding: 14px;
     }
 
-    /* Buscador en su línea; pastillas repartidas debajo */
+    /* Buscador en su línea, pastillas repartidas debajo */
     .buscador {
         flex: 1 0 100%;
         width: 100%;
@@ -733,7 +732,7 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
     }
 
 
-    /* ---------- historico.php ---------- */
+    /* historico.php */
 
     .historial-main {
         padding-top: 14px;
@@ -756,6 +755,7 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
     /* Filtros: 2 columnas, más altos para tocar */
     .historial-filtros {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
     }
 
     .historial-filtro {
@@ -773,114 +773,67 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
         font-size: 0.8rem;
     }
 
-    /* La tabla pasa a tarjetas: sin scroll horizontal */
-    .historial-tabla {
-        width: 100%;
-        min-width: 0;
-        font-size: 0.75rem;
+    /* En móvil cada reserva se reparte en dos columnas, sin arrastrar el grid de escritorio. */
+    .historial-filtros > div:first-child {
+        grid-column: 1 / -1;
     }
 
-    .historial-tabla thead {
-        display: none;
+    .historial-reserva {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas:
+            "id estado"
+            "horario sala"
+            "modulo responsable";
+        gap: 12px 10px;
+        align-items: start;
+        padding: 14px;
+        font-size: 0.78rem;
     }
 
-    .historial-tabla,
-    .historial-tabla tbody {
-        display: block;
-    }
-
-    .historial-tabla tbody {
-        margin-bottom: 12px;
-    }
-
-    /* Cabecera de fecha */
-    .historial-tabla .historial-fecha {
-        display: block;
-        margin-bottom: 8px;
-    }
-
-    .historial-tabla .historial-fecha th {
-        display: block;
-    }
-
-    /* Cada reserva = tarjeta de 2 columnas */
-    .historial-tabla tbody tr:not(.historial-fecha) {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px 12px;
-        margin-bottom: 8px;
-        padding: 12px;
-        border: 1px solid #f0e2d6;
-        border-radius: 10px;
-        background: #fffaf6;
-    }
-
-    .historial-tabla tbody tr:not(.historial-fecha) td {
-        display: block;
-        min-width: 0;
-        padding: 0;
+    .historial-reserva-id { grid-area: id; }
+    .historial-reserva-horario { grid-area: horario; }
+    .historial-reserva-sala { grid-area: sala; }
+    .historial-reserva-modulo { grid-area: modulo; }
+    .historial-reserva-responsable {
+        grid-area: responsable;
         overflow-wrap: anywhere;
     }
 
-    /* Fila 1: id + estado */
-    .historial-tabla tbody tr:not(.historial-fecha) td:nth-child(1) {
-        grid-column: 1;
-        grid-row: 1;
-    }
-
-    .historial-tabla tbody tr:not(.historial-fecha) td:nth-child(6) {
-        grid-column: 2;
-        grid-row: 1;
+    .historial-reserva-estado {
+        grid-area: estado;
         justify-self: end;
+        max-width: 100%;
     }
 
-    /* Fila 2: horario + sala */
-    .historial-tabla tbody tr:not(.historial-fecha) td:nth-child(2) {
-        grid-column: 1;
-        grid-row: 2;
-    }
-
-    .historial-tabla tbody tr:not(.historial-fecha) td:nth-child(3) {
-        grid-column: 2;
-        grid-row: 2;
-    }
-
-    /* Fila 3: modalidad + responsable */
-    .historial-tabla tbody tr:not(.historial-fecha) td:nth-child(4) {
-        grid-column: 1;
-        grid-row: 3;
-    }
-
-    .historial-tabla tbody tr:not(.historial-fecha) td:nth-child(5) {
-        grid-column: 2;
-        grid-row: 3;
-    }
-
-    /* Etiquetas pequeñas, ya que no hay cabecera */
-    .historial-tabla td:nth-child(3)::before,
-    .historial-tabla td:nth-child(4)::before,
-    .historial-tabla td:nth-child(5)::before {
+    .historial-reserva-horario::before,
+    .historial-reserva-sala::before,
+    .historial-reserva-modulo::before,
+    .historial-reserva-responsable::before {
         display: block;
-        margin-bottom: 2px;
+        margin-bottom: 3px;
         color: #765a98;
-        font: 0.6rem 'Space Mono', monospace;
+        font: 0.58rem 'Space Mono', monospace;
         text-transform: uppercase;
     }
 
-    .historial-tabla td:nth-child(3)::before {
-        content: "Sala";
+    .historial-reserva-horario::before { content: "Horario"; }
+    .historial-reserva-sala::before { content: "Sala"; }
+    .historial-reserva-modulo::before { content: "Modalidad"; }
+    .historial-reserva-responsable::before { content: "Responsable"; }
+
+    .historial-horario {
+        white-space: normal;
     }
 
-    .historial-tabla td:nth-child(4)::before {
-        content: "Modalidad";
-    }
-
-    .historial-tabla td:nth-child(5)::before {
-        content: "Responsable";
+    .historial-sala {
+        font-size: 1.15rem;
+        line-height: 1;
     }
 
     .historial-estado {
         min-width: 0;
-        font-size: 0.65rem;
+        padding: 5px 8px;
+        font-size: 0.62rem;
+        white-space: normal;
     }
 }

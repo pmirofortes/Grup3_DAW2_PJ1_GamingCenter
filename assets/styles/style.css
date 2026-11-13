@@ -515,6 +515,30 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
     text-align: center;
 }
 
+@media (max-width: 991.98px) {
+    .historial-filtros {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .historial-reserva {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+        padding: 12px;
+    }
+
+    .historial-reserva-sala {
+        grid-column: 3 / 5;
+    }
+
+    .historial-reserva-responsable {
+        grid-column: 2 / 4;
+    }
+
+    .historial-reserva-estado {
+        grid-column: 4;
+    }
+}
+
 @media (max-width: 767.98px) {
     .historial-main {
         padding-top: 20px;
@@ -524,13 +548,27 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .historial-filtro {
+        width: 100%;
+        min-width: 0;
+    }
+
     .historial-reserva {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px 12px;
         padding: 12px;
     }
 
+    .historial-horario {
+        white-space: normal;
+    }
+
     .historial-reserva-sala {
         grid-column: 1 / -1;
+    }
+
+    .historial-reserva-responsable,
+    .historial-reserva-estado {
+        grid-column: auto;
     }
 }

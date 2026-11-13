@@ -22,7 +22,7 @@
             <?php } ?>
         </form>
 
-        <!-- Mapa: cada sala es un enlace con su zona (SVG) y su pin -->
+        <!-- Mapa: cada sala es un enlace con su zona (sacada de zonas_mapa.svg) y su pin -->
         <div class="mapa-hueco">
             <div class="mapa">
                 <?php foreach ($salas as $id => $sala) { ?>
@@ -31,8 +31,11 @@
                        data-nombre="<?= htmlspecialchars($sala['nombre']) ?>"
                        data-tipo="<?= $sala['tipo'] ?>"
                        data-modulos="<?= implode(' ', array_column($sala['modulos'], 'modulo')) ?>">
-                        <svg viewBox="0 0 1499 1049"><path d="<?= $sala['forma'] ?>"></path></svg>
-                        <span class="pin" style="left: <?= $sala['pin'][0] ?>%; top: <?= $sala['pin'][1] ?>%">
+                        <?php if ($sala['zona']) { ?>
+                            <svg viewBox="0 0 1499 1049"><use href="../assets/images/zonas_mapa.svg#<?= $sala['zona'] ?>"></use></svg>
+                        <?php } ?>
+                        <!-- El pin está en píxeles del mapa (1499 x 1049): se pasa a % para que siga en su sitio aunque el mapa cambie de tamaño -->
+                        <span class="pin" style="left: <?= round($sala['pin'][0] / 1499 * 100, 2) ?>%; top: <?= round($sala['pin'][1] / 1049 * 100, 2) ?>%">
                             <?= $sala['libres'] ?>/<?= count($sala['modulos']) ?>
                             <?php foreach ($sala['modulos'] as $modulo) { ?>
                                 <span class="punto <?= $modulo['punto'] ?>"><?= $modulo['letra'] ?></span>

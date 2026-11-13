@@ -222,10 +222,11 @@ body { margin: 0; font-family: 'Outfit', sans-serif; }
     height: 100%;
     pointer-events: none;
 }
-.sala path { pointer-events: all; fill: transparent; stroke-width: 6; }
-.sala:hover path    { fill: rgba(255, 255, 255, 0.3); }
-.sala.activa path   { stroke: #2a1660; }
-.sala.apagada path  { fill: rgba(27, 10, 60, 0.55); }
+/* El polígono de zonas_mapa.svg hereda el relleno y el borde del <use> */
+.sala use { pointer-events: all; fill: transparent; stroke-width: 6; }
+.sala:hover use    { fill: rgba(255, 255, 255, 0.3); }
+.sala.activa use   { stroke: #2a1660; }
+.sala.apagada use  { fill: rgba(27, 10, 60, 0.55); }
 .sala.apagada .pin  { opacity: 0.5; }
 
 .pin {

@@ -67,13 +67,13 @@ Todos los gamemasters tienen la misma contraseña: `qweQWE123`.
 ```
 ├── assets/
 │   ├── images/
-│   ├── scripts/ (main.js)
-│   └── styles/  (header.css, style.css)
-├── backend/  (liberar_modulo.php, logout.php, ocupar_modulo.php)
-├── includes/  (header.php, session.php)
-├── sql/  (conexion.php, db_pj5_gamingCenter.sql)
+│   ├── scripts/  (main.js)
+│   └── styles/   (style.css)
+├── backend/   (cargar_salas.php, liberar_modulo.php, logout.php, ocupar_modulo.php)
+├── includes/   (header.php, session.php, zonas_mapa.php)
+├── sql/     (conexion.php, db_pj5_gamingCenter.sql)
 ├── validaciones/  (validacion_login.js, validar_login.php)
-├── views/  (historico.php, main.php)
+├── views/   (historico.php, main.php)
 ├── index.php
 └── README.md
 ```

@@ -92,12 +92,6 @@
                 <small class="texto_panel">Panel de gamemasters</small>
                 <h2 class="titulo_iniciar_sesion">Iniciar sesión</h2>
 
-                <?php if ($error !== "") { ?>
-                    <div class="alert alert-danger"><?= htmlspecialchars($error, ENT_QUOTES, "UTF-8") ?></div>
-                <?php } elseif ($mensaje !== "") { ?>
-                    <div class="alert alert-success"><?= htmlspecialchars($mensaje, ENT_QUOTES, "UTF-8") ?></div>
-                <?php } ?>
-
                 <!-- La validación en el navegador da respuesta rápida, PHP vuelve a comprobar al recibir el formulario -->
                 <form action="" method="POST" id="formLogin" onsubmit="return validarTodo()">
                     <label for="usuario">Usuario</label>
@@ -117,6 +111,19 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Si el servidor devuelve un error, lo mostramos en una ventana de SweetAlert -->
+<?php if ($error !== "") { // Solo se pinta el script si $error tiene un mensaje ?>
+<script>
+    // Swal.fire abre la ventana emergente
+    Swal.fire({
+        icon: "error", // Dibujo de la ventana: aquí la X roja de error
+        title: "No se pudo iniciar sesión", // Título en grande
+        text: <?= json_encode($error) ?> // Mensaje que viene de PHP, pasado a JS de forma segura
+    });
+</script>
+<?php } // Fin del if: si no hay error, no se escribe nada ?>
+
 <script src="./validaciones/validacion_login.js" defer></script>
 </body>
 </html>

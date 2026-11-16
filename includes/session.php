@@ -4,7 +4,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-// La sesión solo es válida si guarda un identificador entero positivo.
+// Comprueba si el usuario tiene guardado un ID válido en su sesión
 $idGamemaster = filter_var(
     $_SESSION['id_gamemaster'] ?? null,
     FILTER_VALIDATE_INT,

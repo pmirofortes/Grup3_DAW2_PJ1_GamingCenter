@@ -28,9 +28,9 @@
         <!-- Las clases reflejan los filtros y la sala seleccionada, calculados en cargar_salas.php -->
         <div class="mapa-hueco">
             <div class="mapa">
-                <?php foreach ($salas as $id => $sala) { ?>
+                <?php foreach ($salas as $id => $sala) { //vuelta por sala?>
                     <a href="?tipo=<?= urlencode($tipo) ?>&q=<?= urlencode($busqueda) ?>&id_sala=<?= $id ?>"
-                       class="sala <?= $id === $idSala ? 'activa' : '' ?> <?= $sala['apagada'] ? 'apagada' : '' ?>"
+                       class="sala <?= $id === $idSala ? 'activa' : '' ?> <?= $sala['apagada'] ? 'apagada' : '' //enlace de la sala?>"
                        data-nombre="<?= htmlspecialchars($sala['nombre']) ?>"
                        data-tipo="<?= $sala['tipo'] ?>"
                        data-modulos="<?= implode(' ', array_column($sala['modulos'], 'modulo')) ?>">
@@ -40,6 +40,7 @@
                             <small><?= $sala['tipo'] ?></small>
                         </span>
                         <?php if ($sala['zona']) { ?>
+                            <!--# sirve para elegir qué elemento coger del archivo -->
                             <svg viewBox="0 0 1499 1049"><use href="../assets/images/zonas_mapa.svg#<?= $sala['zona'] ?>"></use></svg>
                         <?php } ?>
                         <!-- El pin está en píxeles del mapa (1499 x 1049): se pasa a % para que siga en su sitio aunque el mapa cambie de tamaño -->

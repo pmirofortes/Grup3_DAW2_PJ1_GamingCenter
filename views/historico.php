@@ -26,6 +26,7 @@ if (!is_string($estado) || !in_array($estado, $estados, true)) {
     $estado = 'todos';
 }
 
+//	Carga salas y módulos para los desplegables
 $stmt = $conn->query('SELECT id_sala, nombre FROM salas ORDER BY nombre');
 $salas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -38,6 +39,8 @@ $stmt = $conn->query(
 $modulos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Cada filtro añade su condición y sus valores se pasan por separado a PDO
+
+//Consulta con 4 tablas y la ejecuta con PDO
 $condiciones = [];
 $parametros = [];
 if ($idSala !== null) {
@@ -89,13 +92,13 @@ $stmt = $conn->prepare($sql);
 $stmt->execute($parametros);
 $ocupaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Separamos las reservas por fecha para darles una cabecera común en la vista.
+// Separamos las reservas por fecha para darles una cabecera común en la vista
 $ocupacionesPorFecha = [];
 foreach ($ocupaciones as $ocupacion) {
     $fecha = substr($ocupacion['fecha_inicio'], 0, 10);
     $ocupacionesPorFecha[$fecha][] = $ocupacion;
 }
-
+//Funciones para dar formato
 function formatoDuracion($minutos)
 {
     $minutos = (int) $minutos;
